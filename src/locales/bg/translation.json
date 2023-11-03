@@ -16,5 +16,8 @@
   "tos": "Условията за ползване",
   "error-password-requirements": "Паролата трябва да включва поне един символ, едно число и една главна буква.",
   "error-passwords-dont-match": "Паролите не съвпадат.",
-  "error-terms-not-accepted": "Трябва да се съгласите с Условията за ползване."
+  "error-terms-not-accepted": "Трябва да се съгласите с Условията за ползване.",
+  "dashboard-header": "Качете и криптирайте файлове",
+  "dropdown--encrypt-placeholder": "Изберете алгоритъм",
+  "dropzone-placeholder": "Поставете файлове тук"
 }

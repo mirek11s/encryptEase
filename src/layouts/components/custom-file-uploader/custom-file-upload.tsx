@@ -1,5 +1,7 @@
 import React, { useRef, useState } from "react";
 import { Toast } from "primereact/toast";
+
+// primereact components
 import {
   FileUpload,
   FileUploadHeaderTemplateOptions,
@@ -10,32 +12,28 @@ import { ProgressBar } from "primereact/progressbar";
 import { Button } from "primereact/button";
 import { Tooltip } from "primereact/tooltip";
 import { Tag } from "primereact/tag";
+
+import { TFunction } from "i18next";
 import {
   chooseOptions,
   uploadOptions,
   cancelOptions,
+  allowedExtensions,
 } from "layouts/layoutConstants";
+import { CustomFile } from "./upload.types";
 import "./custom-file-upload.css";
 
-interface CustomFile extends File {
-  objectURL?: string;
+interface CustomFileUploadProps {
+  t: TFunction<"translation", undefined>;
 }
 
-const CustomFileUpload: React.FC = () => {
+const CustomFileUpload: React.FC<CustomFileUploadProps> = ({ t }) => {
   const toast = useRef<Toast>(null);
   const [totalSize, setTotalSize] = useState(0);
   const fileUploadRef = useRef<FileUpload>(null);
 
   const onTemplateSelect = (e: FileUploadSelectEvent) => {
     const files = e.files as CustomFile[];
-    const allowedExtensions = [
-      ".txt",
-      ".pdf",
-      ".doc",
-      ".docx",
-      ".odt",
-      ".pages",
-    ];
 
     let newTotalSize = totalSize;
 
@@ -162,7 +160,7 @@ const CustomFileUpload: React.FC = () => {
           style={{ fontSize: "1.2em", color: "var(--text-color-secondary)" }}
           className="my-5"
         >
-          Drag and Drop Files Here
+          {t("dropzone-placeholder")}
         </span>
       </div>
     );

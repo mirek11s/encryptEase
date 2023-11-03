@@ -19,3 +19,20 @@ export const cancelOptions = {
   className:
     "custom-cancel-btn p-button-danger p-button-rounded p-button-outlined",
 };
+
+export const allowedExtensions = [
+  ".txt",
+  ".pdf",
+  ".doc",
+  ".docx",
+  ".odt",
+  ".pages",
+];
+
+export const algorithmOptions = [
+  { label: "AES", value: "AES" },
+  { label: "Camellia", value: "camellia" },
+  { label: "EncryptEase", value: "encryptEase" },
+  { label: "Serpent", value: "serpent" },
+  { label: "Twofish", value: "twofish" },
+];
