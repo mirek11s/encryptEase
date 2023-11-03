@@ -1,0 +1,6 @@
+.custom-upload-btn,
+.custom-cancel-btn,
+.custom-choose-btn {
+  cursor: pointer;
+  border-radius: 50%;
+}
