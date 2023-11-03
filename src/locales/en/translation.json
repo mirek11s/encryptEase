@@ -18,5 +18,8 @@
   "error-terms-not-accepted": "You must agree to the Terms of Service.",
   "dashboard-header": "Upload and Encrypt Files",
   "dropdown--encrypt-placeholder": "Select an algorithm",
-  "dropzone-placeholder": "Drag and Drop Files Here"
+  "dropzone-placeholder": "Drag and Drop Files Here",
+  "success-upload": "File uploaded successfully!",
+  "error-no-algorithm": "Please select an algorithm.",
+  "error-file-not-supported": "is not a supported file type."
 }

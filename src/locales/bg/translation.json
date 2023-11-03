@@ -19,5 +19,8 @@
   "error-terms-not-accepted": "Трябва да се съгласите с Условията за ползване.",
   "dashboard-header": "Качете и криптирайте файлове",
   "dropdown--encrypt-placeholder": "Изберете алгоритъм",
-  "dropzone-placeholder": "Поставете файлове тук"
+  "dropzone-placeholder": "Поставете файлове тук",
+  "success-upload": "Файлът беше качен успешно!",
+  "error-no-algorithm": "Моля, изберете алгоритъм.",
+  "error-file-not-supported": "не е поддържан тип файл."
 }

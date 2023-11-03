@@ -25,9 +25,13 @@ import "./custom-file-upload.css";
 
 interface CustomFileUploadProps {
   t: TFunction<"translation", undefined>;
+  selectedAlgo: string | null;
 }
 
-const CustomFileUpload: React.FC<CustomFileUploadProps> = ({ t }) => {
+const CustomFileUpload: React.FC<CustomFileUploadProps> = ({
+  t,
+  selectedAlgo,
+}) => {
   const toast = useRef<Toast>(null);
   const [totalSize, setTotalSize] = useState(0);
   const fileUploadRef = useRef<FileUpload>(null);
@@ -45,7 +49,7 @@ const CustomFileUpload: React.FC<CustomFileUploadProps> = ({ t }) => {
         toast.current?.show({
           severity: "error",
           summary: "Error",
-          detail: `${files[i].name} is not a supported file type`,
+          detail: `${files[i].name} ${t("error-file-not-supported")}`,
         });
         return;
       }
@@ -55,18 +59,27 @@ const CustomFileUpload: React.FC<CustomFileUploadProps> = ({ t }) => {
   };
 
   const onTemplateUpload = (e: FileUploadUploadEvent) => {
-    let _totalSize = 0;
+    if (selectedAlgo) {
+      let _totalSize = 0;
 
-    e.files.forEach((file) => {
-      _totalSize += file.size || 0;
-    });
+      e.files.forEach((file) => {
+        _totalSize += file.size || 0;
+      });
 
-    setTotalSize(_totalSize);
-    toast.current?.show({
-      severity: "info",
-      summary: "Success",
-      detail: "File Uploaded",
-    });
+      setTotalSize(_totalSize);
+      toast.current?.show({
+        severity: "info",
+        summary: "Success",
+        detail: t("success-upload"),
+      });
+    } else {
+      toast.current?.show({
+        severity: "error",
+        summary: "Error",
+        detail: t("error-no-algorithm"),
+      });
+      e.files = [];
+    }
   };
 
   const onTemplateRemove = (file: File, callback: () => void) => {
@@ -105,7 +118,7 @@ const CustomFileUpload: React.FC<CustomFileUploadProps> = ({ t }) => {
             value={value}
             showValue={false}
             style={{ width: "10rem", height: "12px" }}
-          ></ProgressBar>
+          />
         </div>
       </div>
     );
