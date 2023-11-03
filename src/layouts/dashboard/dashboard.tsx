@@ -20,7 +20,7 @@ const Dashboard: React.FC = () => {
     <div className="container-fluid">
       <Navbar />
       <div className="container mt-5">
-        <h2>Dashboard</h2>
+        <h2 className="mb-4">Upload Dashboard</h2>
         <Dropdown
           options={algorithms}
           placeholder="Select an algorithm"

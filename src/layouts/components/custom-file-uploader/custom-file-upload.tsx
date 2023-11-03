@@ -165,14 +165,14 @@ const CustomFileUpload: React.FC = () => {
           style={{ fontSize: "1.2em", color: "var(--text-color-secondary)" }}
           className="my-5"
         >
-          Drag and Drop Image Here
+          Drag and Drop Files Here
         </span>
       </div>
     );
   };
 
   return (
-    <div>
+    <>
       <Toast ref={toast} />
 
       <Tooltip target=".custom-choose-btn" content="Choose" position="bottom" />
@@ -197,7 +197,7 @@ const CustomFileUpload: React.FC = () => {
         uploadOptions={uploadOptions}
         cancelOptions={cancelOptions}
       />
-    </div>
+    </>
   );
 };
 
