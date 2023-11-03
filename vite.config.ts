@@ -8,4 +8,11 @@ export default defineConfig({
     port: 3000, // sets localhost port
     open: true, // opens browser on server start
   },
+  resolve: {
+    alias: {
+      assets: "/src/assets",
+      layouts: "/src/layouts",
+      context: "/src/context",
+    },
+  },
 });
