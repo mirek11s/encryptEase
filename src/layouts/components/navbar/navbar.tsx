@@ -17,26 +17,24 @@ const Navbar: React.FC = () => {
   };
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-transparent">
+    <nav className="navbar">
       <div className="container-fluid">
         <Link className="navbar-brand" to="/">
           {PROJECT_NAME}
         </Link>
-        <div className="ms-auto d-flex">
-          <div className="language-icons mx-2">
-            <img
-              src={bulgaria}
-              alt="Bulgarian"
-              className="mx-1 landing-page-flags"
-              onClick={() => changeLanguage("bg")}
-            />
-            <img
-              src={uk}
-              alt="English"
-              className="mx-1 landing-page-flags"
-              onClick={() => changeLanguage("en")}
-            />
-          </div>
+        <div className="language-icons">
+          <img
+            src={bulgaria}
+            alt="Bulgarian"
+            className="mx-1 landing-page-flags"
+            onClick={() => changeLanguage("bg")}
+          />
+          <img
+            src={uk}
+            alt="English"
+            className="mx-1 landing-page-flags"
+            onClick={() => changeLanguage("en")}
+          />
         </div>
       </div>
     </nav>

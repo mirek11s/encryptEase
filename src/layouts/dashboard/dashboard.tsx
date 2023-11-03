@@ -17,7 +17,7 @@ const Dashboard: React.FC = () => {
   ];
 
   return (
-    <div>
+    <div className="container-fluid">
       <Navbar />
       <div className="container mt-5">
         <h2>Dashboard</h2>

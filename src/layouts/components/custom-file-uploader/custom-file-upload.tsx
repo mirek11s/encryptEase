@@ -29,9 +29,7 @@ const CustomFileUpload: React.FC = () => {
   const fileUploadRef = useRef<FileUpload>(null);
 
   const onTemplateSelect = (e: FileUploadSelectEvent) => {
-    const _totalSize = totalSize;
     const files = e.files as CustomFile[];
-
     const allowedExtensions = [
       ".txt",
       ".pdf",
@@ -40,6 +38,8 @@ const CustomFileUpload: React.FC = () => {
       ".odt",
       ".pages",
     ];
+
+    let newTotalSize = totalSize;
 
     for (let i = 0; i < files.length; i++) {
       const fileExtension = files[i].name.slice(
@@ -53,9 +53,9 @@ const CustomFileUpload: React.FC = () => {
         });
         return;
       }
+      newTotalSize += files[i].size || 0;
     }
-
-    setTotalSize(_totalSize);
+    setTotalSize(newTotalSize);
   };
 
   const onTemplateUpload = (e: FileUploadUploadEvent) => {
@@ -84,7 +84,8 @@ const CustomFileUpload: React.FC = () => {
 
   const headerTemplate = (options: FileUploadHeaderTemplateOptions) => {
     const { className, chooseButton, uploadButton, cancelButton } = options;
-    const value = (totalSize / 10000000) * 100; // 10 MB + percentage adjustment
+    const maxFileSize = 10000000; // 10 MB
+    const value = (totalSize / maxFileSize) * 100; // Calculate percentage
     const formatedValue =
       fileUploadRef && fileUploadRef.current
         ? fileUploadRef.current.formatSize(totalSize)
@@ -103,7 +104,7 @@ const CustomFileUpload: React.FC = () => {
         {uploadButton}
         {cancelButton}
         <div className="flex align-items-center gap-3 ml-auto">
-          <span>{formatedValue} / 10 MB</span>
+          <span>{formatedValue} / 1 MB</span>
           <ProgressBar
             value={value}
             showValue={false}
