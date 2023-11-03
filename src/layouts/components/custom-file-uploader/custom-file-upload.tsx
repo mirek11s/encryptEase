@@ -10,14 +10,12 @@ import { ProgressBar } from "primereact/progressbar";
 import { Button } from "primereact/button";
 import { Tooltip } from "primereact/tooltip";
 import { Tag } from "primereact/tag";
-
-import "./custom-file-upload.css";
-
 import {
   chooseOptions,
   uploadOptions,
   cancelOptions,
 } from "layouts/layoutConstants";
+import "./custom-file-upload.css";
 
 interface CustomFile extends File {
   objectURL?: string;
@@ -96,14 +94,14 @@ const CustomFileUpload: React.FC = () => {
         className={className}
         style={{
           backgroundColor: "transparent",
-          display: "flex",
+          display: "d-flex",
           alignItems: "center",
         }}
       >
         {chooseButton}
         {uploadButton}
         {cancelButton}
-        <div className="flex align-items-center gap-3 ml-auto">
+        <div className="d-flex align-items-center gap-3 ml-auto">
           <span>{formatedValue} / 1 MB</span>
           <ProgressBar
             value={value}
@@ -120,24 +118,23 @@ const CustomFileUpload: React.FC = () => {
     const file = inFile as CustomFile;
 
     return (
-      <div className="flex align-items-center flex-wrap">
-        <div className="flex align-items-center" style={{ width: "40%" }}>
+      <div className="d-flex align-items-center flex-wrap">
+        <div className="d-flex align-items-center" style={{ width: "40%" }}>
           <i
             className="pi pi-file"
             style={{
               fontSize: "2rem",
             }}
           />
-
-          <span className="flex flex-column text-left ml-3">
-            {file.name}
+          <span className="flex flex-column text-left ml-3 file-name-container">
+            <span className="file-name">{file.name}</span>
             <small>{new Date().toLocaleDateString()}</small>
           </span>
         </div>
         <Tag
           value={props.formatSize}
           severity="warning"
-          className="px-3 py-2"
+          className="px-3 py-2 mx-3"
         />
         <Button
           type="button"
@@ -151,7 +148,7 @@ const CustomFileUpload: React.FC = () => {
 
   const emptyTemplate = () => {
     return (
-      <div className="flex align-items-center flex-column">
+      <div className="d-flex align-items-center flex-column">
         <i
           className="pi pi-file mt-3 p-5"
           style={{

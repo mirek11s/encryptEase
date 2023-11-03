@@ -4,3 +4,22 @@
   cursor: pointer;
   border-radius: 50%;
 }
+
+.file-name-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.file-name {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Mobile view */
+@media (max-width: 767px) {
+  .file-name {
+    max-width: 5rem;
+  }
+}
