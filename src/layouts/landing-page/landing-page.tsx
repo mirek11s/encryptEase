@@ -2,10 +2,13 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { Button } from "primereact/button";
+import { PROJECT_NAME } from "layouts/layoutConstants";
 
+// assets
 import logo from "assets/matrix_logo.svg";
 import bulgaria from "assets/bulgaria.png";
 import uk from "assets/uk.png";
+
 import "./landing-page.css";
 
 const LandingPage: React.FC = () => {
@@ -34,15 +37,24 @@ const LandingPage: React.FC = () => {
             <span className="navbar-toggler-icon"></span>
           </button>
           <div className="collapse navbar-collapse" id="navbarNav">
-            <div className="ms-auto d-flex">
+            <div className="navbar-nav ms-auto d-flex">
+              <button
+                className="btn-close btn-close-white mb-4"
+                aria-label="Close"
+                data-bs-toggle="collapse"
+                data-bs-target="#navbarNav"
+              />
               <Link to="/signin" className="mx-2">
                 <Button
                   label={t("sign-in-btn")}
-                  className="p-button-secondary"
+                  className="p-button-secondary w-100"
                 />
               </Link>
-              <Link to="/signup">
-                <Button label={t("sign-up-btn")} className="p-button-primary" />
+              <Link to="/signup" className="mx-2">
+                <Button
+                  label={t("sign-up-btn")}
+                  className="p-button-primary w-100"
+                />
               </Link>
               <div className="language-icons mx-2">
                 <img
@@ -65,7 +77,7 @@ const LandingPage: React.FC = () => {
       <div className="content text-center mt-5">
         <div className="text-center">
           <img src={logo} alt="Logo" className="logo mb-4" />
-          <h1 className="mb-4">EncryptEase</h1>
+          <h1 className="mb-4">{PROJECT_NAME}</h1>
         </div>
         <h5 className="mb-4 landing-page-paragraph">
           {t("landing-page-subheader")}
