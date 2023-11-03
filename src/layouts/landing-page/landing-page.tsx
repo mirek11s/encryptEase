@@ -23,7 +23,7 @@ const LandingPage: React.FC = () => {
       <nav className="navbar navbar-expand-lg navbar-light bg-transparent">
         <div className="container-fluid">
           <Link className="navbar-brand" to="/">
-            EncryptEase
+            {PROJECT_NAME}
           </Link>
           <button
             className="navbar-toggler"

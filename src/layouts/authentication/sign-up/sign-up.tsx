@@ -1,20 +1,23 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 // primereact components
 import { InputText } from "primereact/inputtext";
 import { Checkbox } from "primereact/checkbox";
 import { Button } from "primereact/button";
 import { CheckboxChangeEvent } from "primereact/checkbox";
-
 import { validatePassword } from "layouts/layoutUtils";
 
+import Navbar from "layouts/components/navbar/navbar";
 import logo from "assets/matrix_logo.svg";
 import "./sign-up.css";
 
 const SignUp: React.FC = () => {
+  const { t } = useTranslation();
+
   const [formData, setFormData] = useState({
-    username: "",
+    email: "",
     password: "",
     confirmPassword: "",
     termsAccepted: false,
@@ -50,75 +53,86 @@ const SignUp: React.FC = () => {
   };
 
   return (
-    <div className="container mt-5 " style={{ maxWidth: "40rem" }}>
-      <div className="text-center">
-        <img src={logo} alt="Logo" className="logo mb-4" />
-        <h2 className="mb-4">Create Your Account and Dive In! 💡</h2>
-      </div>
-      <div className="card p-4">
-        <form onSubmit={handleSubmit} autoComplete="off">
-          <div className="p-fluid">
-            <div className="p-field">
-              <label htmlFor="username">Username:</label>
-              <InputText
-                id="username"
-                name="username"
-                type="email"
-                value={formData.username}
-                onChange={handleInputChange}
-              />
-            </div>
-            <div className="p-field">
-              <label htmlFor="password">Password:</label>
-              <InputText
-                id="password"
-                name="password"
-                type="password"
-                value={formData.password}
-                onChange={handleInputChange}
-                className={errors.passwordRequirements ? "p-invalid" : ""}
-              />
-              {errors.passwordRequirements && (
-                <small className="p-error">
-                  Password must include at least one symbol, one number, and one uppercase letter.
-                </small>
-              )}
-            </div>
-            {formData.password && (
+    <>
+      <Navbar />
+      <div className="container mt-5 " style={{ maxWidth: "40rem" }}>
+        <div className="text-center">
+          <img src={logo} alt="Logo" className="logo mb-4" />
+          <h2 className="mb-4">{t("sign-up-header")} 💡</h2>
+        </div>
+        <div className="card p-4">
+          <form onSubmit={handleSubmit} autoComplete="off">
+            <div className="p-fluid">
               <div className="p-field">
-                <label htmlFor="confirmPassword">Confirm Password</label>
+                <label htmlFor="email">{t("email")}:</label>
                 <InputText
-                  id="confirmPassword"
-                  name="confirmPassword"
-                  type="password"
-                  value={formData.confirmPassword}
+                  id="email"
+                  name="email"
+                  type="email"
+                  placeholder={t("email-placeholder")}
+                  value={formData.email}
                   onChange={handleInputChange}
-                  className={errors.passwordMismatch ? "p-invalid" : ""}
                 />
-                {errors.passwordMismatch && (
-                  <small className="p-error">Passwords do not match.</small>
+              </div>
+              <div className="p-field">
+                <label htmlFor="password">{t("password")}:</label>
+                <InputText
+                  id="password"
+                  name="password"
+                  type="password"
+                  placeholder={t("password-placeholder")}
+                  value={formData.password}
+                  onChange={handleInputChange}
+                  className={errors.passwordRequirements ? "p-invalid" : ""}
+                />
+                {errors.passwordRequirements && (
+                  <small className="p-error">
+                    Password must include at least one symbol, one number, and
+                    one uppercase letter.
+                  </small>
                 )}
               </div>
-            )}
-            <div className="p-field-checkbox d-flex align-items-center mt-3">
-              <Checkbox
-                inputId="terms"
-                name="termsAccepted"
-                checked={formData.termsAccepted}
-                onChange={handleCheckboxChange}
-              />
-              <label htmlFor="terms" className="mx-2">
-                I agree to the <Link to="/terms">Terms of Service</Link>
-              </label>
+              {formData.password && (
+                <div className="p-field">
+                  <label htmlFor="confirmPassword">
+                    {t("confirm-password")}
+                  </label>
+                  <InputText
+                    id="confirmPassword"
+                    name="confirmPassword"
+                    type="password"
+                    placeholder={t("confirm-password-placeholder")}
+                    value={formData.confirmPassword}
+                    onChange={handleInputChange}
+                    className={errors.passwordMismatch ? "p-invalid" : ""}
+                  />
+                  {errors.passwordMismatch && (
+                    <small className="p-error">Passwords do not match.</small>
+                  )}
+                </div>
+              )}
+              <div className="p-field-checkbox d-flex align-items-center mt-3">
+                <Checkbox
+                  inputId="terms"
+                  name="termsAccepted"
+                  checked={formData.termsAccepted}
+                  onChange={handleCheckboxChange}
+                />
+                <label htmlFor="terms" className="mx-2">
+                  {t("agree-to-tos")} <Link to="/terms">{t("tos")}</Link>
+                </label>
+              </div>
+              {errors.termsNotAccepted && (
+                <small className="p-error">
+                  You must accept the terms of service.
+                </small>
+              )}
+              <Button type="submit" label={t("sign-up-btn")} className="mt-3" />
             </div>
-            {errors.termsNotAccepted && (
-              <small className="p-error">You must accept the terms of service.</small>
-            )}
-            <Button type="submit" label="Register" className="mt-3" />
-          </div>
-        </form>
+          </form>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

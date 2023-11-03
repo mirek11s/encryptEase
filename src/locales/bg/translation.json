@@ -2,5 +2,16 @@
   "landing-page-subheader": "Лесно криптирай и декриптирай файлове с едно натискане.",
   "landing-page-paragraph": "Качете файл, изберете алгоритъм за криптиране и подсигурете вашите данни.",
   "sign-up-btn": "Регистрация",
-  "sign-in-btn": "Вход"
+  "sign-in-btn": "Вход",
+  "sign-up-header": "Създайте своя акаунт и скачай!",
+  "sign-in-header": "Вече имате акаунт? Влезте!",
+  "email": "Имейл",
+  "password": "Парола",
+  "confirm-password": "Потвърдете паролата",
+  "email-placeholder": "Въведете вашия имейл",
+  "username-placeholder": "Въведете вашето потребителско име",
+  "password-placeholder": "Въведете вашата парола",
+  "confirm-password-placeholder": "Потвърдете вашата парола",
+  "agree-to-tos": "Съгласен съм с ",
+  "tos": "Условията за ползване"
 }

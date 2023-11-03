@@ -4,5 +4,13 @@
   "sign-up-btn": "Sign Up",
   "sign-in-btn": "Sign In",
   "sign-up-header": "Create Your Account and Dive In!",
-  "sign-in-header": "Already have an account? Sign In!"
+  "sign-in-header": "Already have an account? Sign In!",
+  "email": "Email",
+  "password": "Password",
+  "confirm-password": "Confirm Password",
+  "email-placeholder": "Enter your email",
+  "password-placeholder": "Enter your password",
+  "confirm-password-placeholder": "Confirm your password",
+  "agree-to-tos": "I agree to the ",
+  "tos": "Terms of Service"
 }
