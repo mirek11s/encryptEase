@@ -39,7 +39,7 @@ const LandingPage: React.FC = () => {
           <div className="collapse navbar-collapse" id="navbarNav">
             <div className="navbar-nav ms-auto d-flex">
               <button
-                className="btn-close btn-close-white mb-4"
+                className="btn-close btn-close-white mb-4 d-lg-none"
                 aria-label="Close"
                 data-bs-toggle="collapse"
                 data-bs-target="#navbarNav"
