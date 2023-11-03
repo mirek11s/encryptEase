@@ -6,7 +6,7 @@ import Navbar from "layouts/components/navbar/navbar";
 import { Dropdown } from "primereact/dropdown";
 
 // custom components
-import CustomFileUpload from "layouts/components/custom-file-uploader/custom-file-uploader";
+import CustomFileUpload from "layouts/components/custom-file-uploader/custom-file-upload";
 // import { UploadedFilesTable } from 'layouts/components/uploaded-files-table/uploaded-files-table';
 
 const Dashboard: React.FC = () => {

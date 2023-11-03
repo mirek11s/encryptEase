@@ -29,11 +29,30 @@ const CustomFileUpload: React.FC = () => {
   const fileUploadRef = useRef<FileUpload>(null);
 
   const onTemplateSelect = (e: FileUploadSelectEvent) => {
-    let _totalSize = totalSize;
+    const _totalSize = totalSize;
     const files = e.files as CustomFile[];
 
+    const allowedExtensions = [
+      ".txt",
+      ".pdf",
+      ".doc",
+      ".docx",
+      ".odt",
+      ".pages",
+    ];
+
     for (let i = 0; i < files.length; i++) {
-      _totalSize += files[i].size || 0;
+      const fileExtension = files[i].name.slice(
+        ((files[i].name.lastIndexOf(".") - 1) >>> 0) + 2
+      );
+      if (!allowedExtensions.includes("." + fileExtension)) {
+        toast.current?.show({
+          severity: "error",
+          summary: "Error",
+          detail: `${files[i].name} is not a supported file type`,
+        });
+        return;
+      }
     }
 
     setTotalSize(_totalSize);
@@ -65,7 +84,7 @@ const CustomFileUpload: React.FC = () => {
 
   const headerTemplate = (options: FileUploadHeaderTemplateOptions) => {
     const { className, chooseButton, uploadButton, cancelButton } = options;
-    const value = totalSize / 10000;
+    const value = (totalSize / 10000000) * 100; // 10 MB + percentage adjustment
     const formatedValue =
       fileUploadRef && fileUploadRef.current
         ? fileUploadRef.current.formatSize(totalSize)
@@ -84,7 +103,7 @@ const CustomFileUpload: React.FC = () => {
         {uploadButton}
         {cancelButton}
         <div className="flex align-items-center gap-3 ml-auto">
-          <span>{formatedValue} / 1 MB</span>
+          <span>{formatedValue} / 10 MB</span>
           <ProgressBar
             value={value}
             showValue={false}
@@ -102,12 +121,13 @@ const CustomFileUpload: React.FC = () => {
     return (
       <div className="flex align-items-center flex-wrap">
         <div className="flex align-items-center" style={{ width: "40%" }}>
-          <img
-            alt={file.name}
-            role="presentation"
-            src={file.objectURL}
-            width={100}
+          <i
+            className="pi pi-file"
+            style={{
+              fontSize: "2rem",
+            }}
           />
+
           <span className="flex flex-column text-left ml-3">
             {file.name}
             <small>{new Date().toLocaleDateString()}</small>
@@ -132,14 +152,14 @@ const CustomFileUpload: React.FC = () => {
     return (
       <div className="flex align-items-center flex-column">
         <i
-          className="pi pi-image mt-3 p-5"
+          className="pi pi-file mt-3 p-5"
           style={{
             fontSize: "5em",
             borderRadius: "50%",
             backgroundColor: "var(--surface-b)",
             color: "var(--surface-d)",
           }}
-        ></i>
+        />
         <span
           style={{ fontSize: "1.2em", color: "var(--text-color-secondary)" }}
           className="my-5"
@@ -163,8 +183,8 @@ const CustomFileUpload: React.FC = () => {
         name="demo[]"
         url="/api/upload"
         multiple
-        accept="*/*"
-        maxFileSize={1000000}
+        accept=".txt,.pdf,.doc,.docx,.odt,.pages"
+        maxFileSize={10000000} // 10 MB
         onUpload={onTemplateUpload}
         onSelect={onTemplateSelect}
         onError={onTemplateClear}
