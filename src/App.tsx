@@ -5,6 +5,7 @@ import SignUp from "./layouts/authentication/sign-up/sign-up";
 import SignIn from "layouts/authentication/sign-in/sign-in";
 import LandingPage from "layouts/landing-page/landing-page";
 import Dashboard from "layouts/dashboard/dashboard";
+import TermsOfService from "layouts/terms-of-service/terms-of-service";
 
 import "./i18n"; // language i18n configuration
 import "./App.css";
@@ -16,7 +17,7 @@ function App() {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/signin" element={<SignIn />} />
         <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/terms" element={<div>Terms of Service Page</div>} />
+        <Route path="/terms" element={<TermsOfService />} />
         {/* Redirect from root to /signup */}
         <Route path="/" element={<LandingPage />} />
       </Routes>

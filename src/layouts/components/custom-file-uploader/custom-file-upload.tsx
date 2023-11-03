@@ -150,7 +150,7 @@ const CustomFileUpload: React.FC<CustomFileUploadProps> = ({
         <Button
           type="button"
           icon="pi pi-times"
-          className="p-button-outlined p-button-rounded p-button-danger ml-auto"
+          className="p-button-outlined p-button-rounded custom-upload-btn p-button-danger ml-auto"
           onClick={() => onTemplateRemove(file, props.onRemove)}
         />
       </div>
