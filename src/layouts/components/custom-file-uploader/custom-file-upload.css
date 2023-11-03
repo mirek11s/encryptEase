@@ -23,3 +23,10 @@
     max-width: 5rem;
   }
 }
+
+.term-condition {
+  width: "100%";
+  display: flex;
+  justify-content: flex-end;
+  font-size: 0.8rem;
+}

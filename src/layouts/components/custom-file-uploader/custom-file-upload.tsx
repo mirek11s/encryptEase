@@ -1,7 +1,8 @@
 import React, { useRef, useState } from "react";
-import { Toast } from "primereact/toast";
+import { Link } from "react-router-dom";
 
 // primereact components
+import { Toast } from "primereact/toast";
 import {
   FileUpload,
   FileUploadHeaderTemplateOptions,
@@ -205,6 +206,9 @@ const CustomFileUpload: React.FC<CustomFileUploadProps> = ({
         uploadOptions={uploadOptions}
         cancelOptions={cancelOptions}
       />
+      <div className="term-condition">
+        <Link to="/terms">{t("tos")}</Link>
+      </div>
     </>
   );
 };

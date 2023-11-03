@@ -21,5 +21,21 @@
   "dropzone-placeholder": "Drag and Drop Files Here",
   "success-upload": "File uploaded successfully!",
   "error-no-algorithm": "Please select an algorithm.",
-  "error-file-not-supported": "is not a supported file type."
+  "error-file-not-supported": "is not a supported file type.",
+  "tos-rule-1-subheader": "Demo Application",
+  "tos-rule-1-text": "Please be aware that this platform serves as a demonstration and does not assure the enduring protection of the files you upload.",
+  "tos-rule-2-subheader": "User Discretion",
+  "tos-rule-2-text": "The application is in its beta phase. We encourage users to exercise caution and utilize the app at their own discretion.",
+  "tos-rule-3-subheader": "Control over Files",
+  "tos-rule-3-text": "As the proprietor of this project, I reserve the right to modify, delete, or alter any uploaded files as deemed necessary. We kindly advise against uploading classified or personal files.",
+  "tos-rule-4-subheader": "Encryption Methods",
+  "tos-rule-4-text": "The project explores a variety of file encryption techniques, including a custom experimental cryptographic method. The security of these methods may not be fully established.",
+  "tos-rule-5-subheader": "User Agreement",
+  "tos-rule-5-text": "By using this application, you acknowledge and agree to the terms stated above and use the app at your own risk.",
+  "tos-rule-6-subheader": "Limitation of Liability",
+  "tos-rule-6-text": "We are not liable for any damages or losses resulting from the use of this application.",
+  "tos-rule-7-subheader": "Changes to Terms",
+  "tos-rule-7-text": "The Terms of Service may be updated periodically. Continued use signifies acceptance of these changes.",
+  "tos-rule-8-subheader": "Disclaimer",
+  "tos-rule-8-text": "The app is provided 'as is' without any warranties or guarantees."
 }
