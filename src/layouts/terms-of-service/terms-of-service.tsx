@@ -34,6 +34,19 @@ const TermsOfService = () => {
           acknowledge and agree to the terms stated above and use the app at
           your own risk.
         </p>
+        <p className="mb-2 tos-paragraph">
+          <strong>8. Limitation of Liability:</strong> We are not liable for any
+          damages or losses resulting from the use of this application.
+        </p>
+        <p className="mb-2 tos-paragraph">
+          <strong>9. Changes to Terms:</strong> The Terms of Service may be
+          updated periodically. Continued use signifies acceptance of these
+          changes.
+        </p>
+        <p className="mb-2 tos-paragraph">
+          <strong>11. Disclaimer:</strong> The app is provided "as is" without
+          any warranties or guarantees.
+        </p>
       </div>
     </div>
   );
