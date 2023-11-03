@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import SignUp from "./layouts/authentication/sign-up/sign-up";
 import LandingPage from "layouts/landing-page/landing-page";
+import "./i18n"; // language i18n configuration
 import "./App.css";
 
 function App() {

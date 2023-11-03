@@ -9,7 +9,8 @@
     "paths": {
       "assets/*": ["src/assets/*"],
       "layouts/*": ["src/layouts/*"],
-      "context/*": ["src/context/*"]
+      "context/*": ["src/context/*"],
+      "locales/*": ["src/locales/*"]
     },
 
     /* Bundler mode */

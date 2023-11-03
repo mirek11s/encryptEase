@@ -1,4 +1,6 @@
 {
   "landing-page-subheader": "Easily encrypt and decrypt files at your fingertips.",
-  "landing-page-paragraph": "Upload a file, choose an encryption algorithm and secure your data with ease."
+  "landing-page-paragraph": "Upload a file, choose an encryption algorithm and secure your data with ease.",
+  "sign-up-btn": "Sign Up",
+  "sign-in-btn": "Sign In"
 }

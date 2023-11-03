@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { Button } from "primereact/button";
 
 import logo from "assets/matrix_logo.svg";
@@ -8,6 +9,12 @@ import uk from "assets/uk.png";
 import "./landing-page.css";
 
 const LandingPage: React.FC = () => {
+  const { t, i18n } = useTranslation();
+
+  const changeLanguage = (language: string) => {
+    i18n.changeLanguage(language);
+  };
+
   return (
     <div className="container-fluid landing-page">
       <nav className="navbar navbar-expand-lg navbar-light bg-transparent">
@@ -29,21 +36,26 @@ const LandingPage: React.FC = () => {
           <div className="collapse navbar-collapse" id="navbarNav">
             <div className="ms-auto d-flex">
               <Link to="/signin" className="mx-2">
-                <Button label="Sign in" className="p-button-secondary" />
+                <Button
+                  label={t("sign-in-btn")}
+                  className="p-button-secondary"
+                />
               </Link>
               <Link to="/signup">
-                <Button label="Sign up" className="p-button-primary" />
+                <Button label={t("sign-up-btn")} className="p-button-primary" />
               </Link>
               <div className="language-icons mx-2">
                 <img
                   src={bulgaria}
                   alt="English"
                   className="mx-1 landing-page-flags"
+                  onClick={() => changeLanguage("bg")}
                 />
                 <img
                   src={uk}
                   alt="Bulgarian"
                   className="mx-1 landing-page-flags"
+                  onClick={() => changeLanguage("en")}
                 />
               </div>
             </div>
@@ -56,12 +68,9 @@ const LandingPage: React.FC = () => {
           <h1 className="mb-4">EncryptEase</h1>
         </div>
         <h5 className="mb-4 landing-page-paragraph">
-          Easily encrypt and decrypt files at your fingertips.
+          {t("landing-page-subheader")}
         </h5>
-        <p className="landing-page-paragraph">
-          Upload a file, choose an encryption algorithm and secure your data
-          with ease.
-        </p>
+        <p className="landing-page-paragraph">{t("landing-page-paragraph")}</p>
       </div>
     </div>
   );

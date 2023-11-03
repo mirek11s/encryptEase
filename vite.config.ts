@@ -13,6 +13,7 @@ export default defineConfig({
       assets: "/src/assets",
       layouts: "/src/layouts",
       context: "/src/context",
+      locales: "/src/locales",
     },
   },
 });
