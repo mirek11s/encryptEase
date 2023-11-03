@@ -13,5 +13,8 @@
   "password-placeholder": "Въведете вашата парола",
   "confirm-password-placeholder": "Потвърдете вашата парола",
   "agree-to-tos": "Съгласен съм с ",
-  "tos": "Условията за ползване"
+  "tos": "Условията за ползване",
+  "error-password-requirements": "Паролата трябва да включва поне един символ, едно число и една главна буква.",
+  "error-passwords-dont-match": "Паролите не съвпадат.",
+  "error-terms-not-accepted": "Трябва да се съгласите с Условията за ползване."
 }

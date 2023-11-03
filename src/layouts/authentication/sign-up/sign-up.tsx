@@ -87,8 +87,7 @@ const SignUp: React.FC = () => {
                 />
                 {errors.passwordRequirements && (
                   <small className="p-error">
-                    Password must include at least one symbol, one number, and
-                    one uppercase letter.
+                    {t("error-password-requirements")}
                   </small>
                 )}
               </div>
@@ -107,7 +106,9 @@ const SignUp: React.FC = () => {
                     className={errors.passwordMismatch ? "p-invalid" : ""}
                   />
                   {errors.passwordMismatch && (
-                    <small className="p-error">Passwords do not match.</small>
+                    <small className="p-error">
+                      {t("error-passwords-dont-match")}
+                    </small>
                   )}
                 </div>
               )}
@@ -124,7 +125,7 @@ const SignUp: React.FC = () => {
               </div>
               {errors.termsNotAccepted && (
                 <small className="p-error">
-                  You must accept the terms of service.
+                  {t("error-terms-not-accepted")}
                 </small>
               )}
               <Button type="submit" label={t("sign-up-btn")} className="mt-3" />

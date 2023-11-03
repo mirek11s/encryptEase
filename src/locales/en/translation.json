@@ -12,5 +12,8 @@
   "password-placeholder": "Enter your password",
   "confirm-password-placeholder": "Confirm your password",
   "agree-to-tos": "I agree to the ",
-  "tos": "Terms of Service"
+  "tos": "Terms of Service",
+  "error-password-requirements": "Password must include at least one symbol, one number and one uppercase letter.",
+  "error-passwords-dont-match": "Passwords don't match.",
+  "error-terms-not-accepted": "You must agree to the Terms of Service."
 }
