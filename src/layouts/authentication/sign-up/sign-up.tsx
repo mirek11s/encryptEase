@@ -108,7 +108,7 @@ const SignUp: React.FC = () => {
                 onChange={handleCheckboxChange}
               />
               <label htmlFor="terms" className="mx-2">
-                I agree to the <Link to="/terms">terms of service</Link>
+                I agree to the <Link to="/terms">Terms of Service</Link>
               </label>
             </div>
             {errors.termsNotAccepted && (

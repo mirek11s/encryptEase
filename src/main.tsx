@@ -6,7 +6,7 @@ import App from "./App.tsx";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 // primereact css files
-import "primereact/resources/themes/saga-blue/theme.css";
+import "primereact/resources/themes/bootstrap4-light-blue/theme.css";
 import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
 import "primeflex/primeflex.css";
@@ -14,5 +14,5 @@ import "primeflex/primeflex.css";
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <App />
-  </React.StrictMode>
+  </React.StrictMode>,
 );

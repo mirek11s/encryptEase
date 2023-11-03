@@ -1,0 +1,12 @@
+.landing-page-flags {
+  width: 2.5rem;
+  cursor: pointer;
+}
+
+.landing-page-flags:hover {
+  opacity: 0.8;
+}
+
+.landing-page-paragraph {
+  font-size: 1.2rem;
+}
