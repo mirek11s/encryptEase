@@ -1,16 +1,21 @@
-import { useState, useEffect, createContext } from "react";
+import { useState, useEffect, createContext, useRef } from "react";
 import { account } from "../appwriteConfig";
 import {
   AuthContextProps,
   UserInfoProps,
   AuthProviderProps,
+  AppwriteAuthResponse,
 } from "./util.types";
+
+import { Toast } from "primereact/toast";
 
 const AuthContext = createContext<AuthContextProps | null>(null);
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
+  const toast = useRef<Toast>(null);
+
   const [isLoading, setIsLoading] = useState(true);
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState<AppwriteAuthResponse | null>(null);
 
   useEffect(() => {
     setIsLoading(false);
@@ -20,10 +25,20 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     setIsLoading(true);
     try {
       const { email, password } = userInfo;
-      const response = await account.createEmailSession(email, password);
-      console.log(response);
+      const response: AppwriteAuthResponse = await account.createEmailSession(
+        email,
+        password
+      );
+      const accountDetails = await account.get();
+      setUser(response);
     } catch (error) {
-      console.log(error);
+      if (error instanceof Error) {
+        toast.current?.show({
+          severity: "error",
+          summary: "Error",
+          detail: error.message,
+        });
+      }
     } finally {
       setIsLoading(false);
     }
@@ -46,6 +61,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   return (
     <AuthContext.Provider value={contextData}>
+      <Toast ref={toast} />
       {isLoading ? <p>Loading...</p> : children}
     </AuthContext.Provider>
   );

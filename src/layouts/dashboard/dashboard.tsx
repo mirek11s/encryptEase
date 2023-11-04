@@ -1,13 +1,13 @@
 // src/layouts/dashboard/dashboard.tsx
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import Navbar from "layouts/components/navbar/navbar";
 
 // primereact components
 import { Dropdown, DropdownChangeEvent } from "primereact/dropdown";
 
-// custom components
+// layouts
 import CustomFileUpload from "layouts/components/custom-file-uploader/custom-file-upload";
+import Navbar from "layouts/components/navbar/navbar";
 // import { UploadedFilesTable } from 'layouts/components/uploaded-files-table/uploaded-files-table';
 
 import { algorithmOptions } from "layouts/layoutConstants";
