@@ -22,7 +22,7 @@ const Navbar: React.FC = () => {
   return (
     <nav className="navbar">
       <div className="container-fluid">
-        <Link className="navbar-brand" to="/">
+        <Link className="navbar-brand" to={user ? "/dashboard" : "/"}>
           {PROJECT_NAME}
         </Link>
         <div className="language-icons">
