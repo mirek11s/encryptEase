@@ -10,7 +10,8 @@
       "assets/*": ["src/assets/*"],
       "layouts/*": ["src/layouts/*"],
       "context/*": ["src/context/*"],
-      "locales/*": ["src/locales/*"]
+      "locales/*": ["src/locales/*"],
+      "utils/*": ["src/utils/*"]
     },
 
     /* Bundler mode */

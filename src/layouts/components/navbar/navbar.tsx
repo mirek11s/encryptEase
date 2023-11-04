@@ -3,7 +3,9 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
+import { Button } from "primereact/button";
 import { PROJECT_NAME } from "layouts/layoutConstants";
+import { useAuth } from "utils/use-auth";
 
 // assets
 import bulgaria from "assets/bulgaria.png";
@@ -11,6 +13,7 @@ import uk from "assets/uk.png";
 
 const Navbar: React.FC = () => {
   const { i18n } = useTranslation();
+  const { user, logoutUser } = useAuth();
 
   const changeLanguage = (language: string) => {
     i18n.changeLanguage(language);
@@ -35,6 +38,15 @@ const Navbar: React.FC = () => {
             className="mx-1 landing-page-flags"
             onClick={() => changeLanguage("en")}
           />
+          {user && (
+            <Link to="/signin" className="mx-2">
+              <Button
+                icon="pi pi-sign-out"
+                className="p-button-outlined p-button-secondary"
+                onClick={logoutUser}
+              />
+            </Link>
+          )}
         </div>
       </div>
     </nav>

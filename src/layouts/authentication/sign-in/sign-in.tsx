@@ -1,15 +1,25 @@
-// src/layouts/authentication/sign-in/sign-in.tsx
-import React, { useState } from "react";
+import { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
 
 import Navbar from "layouts/components/navbar/navbar";
+import { useAuth } from "utils/use-auth";
+
 import logo from "assets/matrix_logo.svg";
 import "./sign-in.css";
 
 const SignIn: React.FC = () => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
+  const { user, loginUser, isLoading } = useAuth();
+
+  useEffect(() => {
+    if (user) {
+      navigate("/dashboard");
+    }
+  }, []);
 
   const [formData, setFormData] = useState({
     email: "",
@@ -21,9 +31,9 @@ const SignIn: React.FC = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Form data submitted:", formData);
+    await loginUser(formData);
   };
 
   return (
@@ -35,7 +45,7 @@ const SignIn: React.FC = () => {
           <h2 className="mb-4">{t("sign-in-header")}</h2>
         </div>
         <div className="card p-4">
-          <form onSubmit={handleSubmit} autoComplete="off">
+          <form onSubmit={handleLogin} autoComplete="off">
             <div className="p-fluid">
               <div className="p-field">
                 <label htmlFor="email">{t("email")}:</label>

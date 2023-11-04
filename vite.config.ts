@@ -14,6 +14,7 @@ export default defineConfig({
       layouts: "/src/layouts",
       context: "/src/context",
       locales: "/src/locales",
+      utils: "/src/utils",
     },
   },
 });
