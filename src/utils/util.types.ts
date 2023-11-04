@@ -7,39 +7,35 @@ export interface UserInfoProps {
   password: string;
 }
 
-export interface AppwriteAuthResponse {
+export interface AppwriteUserResponse {
   $id: string;
   $createdAt: string;
-  userId: string;
-  expire: string;
-  provider: string;
-  providerUid: string;
-  providerAccessToken: string;
-  providerAccessTokenExpiry: string;
-  providerRefreshToken: string;
-  ip: string;
-  osCode: string;
-  osName: string;
-  osVersion: string;
-  clientType: string;
-  clientCode: string;
-  clientName: string;
-  clientVersion: string;
-  clientEngine: string;
-  clientEngineVersion: string;
-  deviceName: string;
-  deviceBrand: string;
-  deviceModel: string;
-  countryCode: string;
-  countryName: string;
-  current: boolean;
+  $updatedAt: string;
+  name: string;
+  registration: string;
+  status: boolean;
+  labels: string[];
+  passwordUpdate: string;
+  email: string;
+  phone: string;
+  emailVerification: boolean;
+  phoneVerification: boolean;
+  prefs: Record<string, unknown>;
+  accessedAt: string;
 }
 
 export interface AuthContextProps {
-  user: AppwriteAuthResponse | null;
+  user: AppwriteUserResponse | null;
   loginUser: (userInfo: UserInfoProps) => Promise<void>;
   logoutUser: () => Promise<void>;
   registerUser: (userInfo: UserInfoProps) => Promise<void>;
   checkUserStatus: () => Promise<void>;
   isLoading: boolean;
+}
+
+export interface AppwriteErrorProps {
+  message: string;
+  code: number;
+  type: string;
+  version: string;
 }

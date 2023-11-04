@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
 // primereact components
@@ -7,14 +7,23 @@ import { InputText } from "primereact/inputtext";
 import { Checkbox } from "primereact/checkbox";
 import { Button } from "primereact/button";
 import { CheckboxChangeEvent } from "primereact/checkbox";
-import { validatePassword } from "layouts/layoutUtils";
 
+import { useAuth } from "utils/use-auth";
+import { validatePassword } from "layouts/layoutUtils";
 import Navbar from "layouts/components/navbar/navbar";
 import logo from "assets/matrix_logo.svg";
 import "./sign-up.css";
 
 const SignUp: React.FC = () => {
   const { t } = useTranslation();
+  const { user, registerUser } = useAuth();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (user) {
+      navigate("/dashboard");
+    }
+  }, []);
 
   const [formData, setFormData] = useState({
     email: "",
@@ -38,7 +47,7 @@ const SignUp: React.FC = () => {
     setFormData({ ...formData, termsAccepted: !!e.checked });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     const passwordMismatch = formData.password !== formData.confirmPassword;
@@ -48,7 +57,7 @@ const SignUp: React.FC = () => {
     setErrors({ passwordMismatch, termsNotAccepted, passwordRequirements });
 
     if (!passwordMismatch && !termsNotAccepted && !passwordRequirements) {
-      console.log("Form data submitted:", formData);
+      await registerUser(formData);
     }
   };
 

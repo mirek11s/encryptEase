@@ -69,7 +69,12 @@ const SignIn: React.FC = () => {
                   onChange={handleInputChange}
                 />
               </div>
-              <Button type="submit" label={t("sign-in-btn")} className="mt-3" />
+              <Button
+                type="submit"
+                label={t("sign-in-btn")}
+                className="mt-3"
+                loading={isLoading}
+              />
             </div>
           </form>
         </div>
