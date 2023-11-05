@@ -13,7 +13,7 @@ import { ProgressBar } from "primereact/progressbar";
 import { Button } from "primereact/button";
 import { Tooltip } from "primereact/tooltip";
 import { Tag } from "primereact/tag";
-
+import { AppwriteUserResponse } from "utils/util.types";
 import { TFunction } from "i18next";
 import {
   chooseOptions,
@@ -21,23 +21,26 @@ import {
   cancelOptions,
   allowedExtensions,
 } from "layouts/layoutConstants";
+import { functions } from "../../../appwriteConfig";
 import { CustomFile } from "./upload.types";
 import "./custom-file-upload.css";
 
 interface CustomFileUploadProps {
   t: TFunction<"translation", undefined>;
   selectedAlgo: string | null;
+  user: AppwriteUserResponse | null;
 }
 
 const CustomFileUpload: React.FC<CustomFileUploadProps> = ({
   t,
   selectedAlgo,
+  user,
 }) => {
   const toast = useRef<Toast>(null);
   const [totalSize, setTotalSize] = useState(0);
   const fileUploadRef = useRef<FileUpload>(null);
 
-  const onTemplateSelect = (e: FileUploadSelectEvent) => {
+  const onSelect = (e: FileUploadSelectEvent) => {
     const files = e.files as CustomFile[];
 
     let newTotalSize = totalSize;
@@ -59,7 +62,7 @@ const CustomFileUpload: React.FC<CustomFileUploadProps> = ({
     setTotalSize(newTotalSize);
   };
 
-  const onTemplateUpload = (e: FileUploadUploadEvent) => {
+  const onUpload = (e: FileUploadUploadEvent) => {
     if (selectedAlgo) {
       let _totalSize = 0;
 
@@ -88,7 +91,7 @@ const CustomFileUpload: React.FC<CustomFileUploadProps> = ({
     callback();
   };
 
-  const onTemplateClear = () => {
+  const handleClear = () => {
     setTotalSize(0);
   };
 
@@ -180,6 +183,50 @@ const CustomFileUpload: React.FC<CustomFileUploadProps> = ({
     );
   };
 
+  const uploadHandler = async (event: { files: File[] }) => {
+    try {
+      const filesPromises = event.files.map(async (file) => {
+        const arrayBuffer = await file.arrayBuffer();
+        return {
+          name: file.name,
+          type: file.type,
+          data: Array.from(new Uint8Array(arrayBuffer)),
+        };
+      });
+
+      const filesData = await Promise.all(filesPromises);
+
+      const data = {
+        files: filesData,
+        encryptionKey: "mysecretkey12345",
+        algorithm: selectedAlgo,
+        fileName: "lulu1",
+        userId: user?.$id,
+      };
+
+      try {
+        const execution = await functions.createExecution(
+          "6546c70c605fb007c8bf",
+          JSON.stringify(data),
+          false,
+          "/uploads",
+          "POST",
+          { "Content-Type": "application/json" }
+        );
+        console.log(execution);
+      } catch (err) {
+        console.error(err);
+      }
+    } catch (error) {
+      console.error("Error uploading file:", error);
+      toast.current?.show({
+        severity: "error",
+        summary: "Error",
+        detail: t("error-upload"),
+      });
+    }
+  };
+
   return (
     <>
       <Toast ref={toast} />
@@ -190,21 +237,23 @@ const CustomFileUpload: React.FC<CustomFileUploadProps> = ({
 
       <FileUpload
         ref={fileUploadRef}
-        name="demo[]"
+        name="files[]"
         url="/api/upload"
         multiple
         accept=".txt,.pdf,.doc,.docx,.odt,.pages"
         maxFileSize={10000000} // 10 MB
-        onUpload={onTemplateUpload}
-        onSelect={onTemplateSelect}
-        onError={onTemplateClear}
-        onClear={onTemplateClear}
+        onUpload={onUpload}
+        onSelect={onSelect}
+        onError={handleClear}
+        onClear={handleClear}
         headerTemplate={headerTemplate}
         itemTemplate={itemTemplate}
         emptyTemplate={emptyTemplate}
         chooseOptions={chooseOptions}
         uploadOptions={uploadOptions}
         cancelOptions={cancelOptions}
+        customUpload={true}
+        uploadHandler={uploadHandler}
       />
       <div className="term-condition">
         <Link to="/terms">{t("tos")}</Link>

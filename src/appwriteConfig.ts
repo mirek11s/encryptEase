@@ -1,4 +1,4 @@
-import { Client, Account } from "appwrite";
+import { Client, Account, Functions, Storage } from "appwrite";
 
 const APPWRITE_ENDPOINT = import.meta.env.VITE_APP_APPWRITE_ENDPOINT;
 export const APPWRITE_PROJECT_ID = import.meta.env.VITE_APP_APPWRITE_PROJECT_ID;
@@ -10,5 +10,7 @@ const client = new Client();
 client.setEndpoint(APPWRITE_ENDPOINT).setProject(APPWRITE_PROJECT_ID);
 
 export const account = new Account(client);
+export const functions = new Functions(client);
+export const storage = new Storage(client);
 
 export default client;

@@ -8,12 +8,15 @@ import { Dropdown, DropdownChangeEvent } from "primereact/dropdown";
 // layouts
 import CustomFileUpload from "layouts/components/custom-file-uploader/custom-file-upload";
 import Navbar from "layouts/components/navbar/navbar";
+
+import { useAuth } from "utils/use-auth";
 // import { UploadedFilesTable } from 'layouts/components/uploaded-files-table/uploaded-files-table';
 
 import { algorithmOptions } from "layouts/layoutConstants";
 
 const Dashboard: React.FC = () => {
   const { t } = useTranslation();
+  const { user } = useAuth();
 
   const [selectedAlgo, setSelectedAlgo] = useState("");
 
@@ -30,7 +33,7 @@ const Dashboard: React.FC = () => {
           className="w-full md:w-14rem mb-3"
         />
 
-        <CustomFileUpload t={t} selectedAlgo={selectedAlgo} />
+        <CustomFileUpload t={t} selectedAlgo={selectedAlgo} user={user} />
 
         {/* <UploadedFilesTable /> */}
       </div>
