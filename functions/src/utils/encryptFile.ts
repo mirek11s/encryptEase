@@ -2,7 +2,7 @@ import { randomBytes, createCipheriv } from "crypto";
 
 export const encryptFile = (
   fileBuffer: Buffer,
-  encryptionKey: string,
+  encryptionKey: Buffer,
   algorithm: string
 ) => {
   const iv = randomBytes(16);

@@ -44,7 +44,7 @@ const CustomFileUpload: React.FC<CustomFileUploadProps> = ({
   const [totalSize, setTotalSize] = useState(0);
   const fileUploadRef = useRef<FileUpload>(null);
 
-  const uploadUserFiles = httpsCallable(functions, "getUserBalance");
+  const uploadUserFiles = httpsCallable(functions, "uploadUserFiles");
 
   const onSelect = (e: FileUploadSelectEvent) => {
     const files = e.files as CustomFile[];
@@ -217,9 +217,10 @@ const CustomFileUpload: React.FC<CustomFileUploadProps> = ({
         files: filesData,
         algorithm: selectedAlgo,
         userId: user?.uid,
+        encryptionKey: "00112233445566778899aabbccddeeff", // user must provide 16-bye key
       };
 
-      const response = await uploadUserFiles({ data: requestBody });
+      const response = await uploadUserFiles({ ...requestBody });
       console.log(response);
 
       toast.current?.show({

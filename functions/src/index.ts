@@ -17,12 +17,15 @@ const storage = getStorage();
 
 export const uploadUserFiles = functions.https.onRequest(
   async (request, response) => {
-    functions.logger.info("Processing file upload request", {
-      structuredData: true,
-    });
+    // Check if the request method is POST
+    if (request.method !== "POST") {
+      response.status(405).send("Method Not Allowed");
+      return;
+    }
 
     try {
-      const { files, encryptionKey, algorithm, userId } = request.body;
+      const { files, encryptionKey, algorithm, userId } =
+        request.body.data || {};
 
       // Validate encryption key length
       const algorithmKeyLengths: Record<Algorithm, number> = {

@@ -1,6 +1,7 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { useAuth } from "utils/use-auth";
 import { Button } from "primereact/button";
 import { PROJECT_NAME } from "layouts/layoutConstants";
 
@@ -13,10 +14,18 @@ import "./landing-page.css";
 
 const LandingPage: React.FC = () => {
   const { t, i18n } = useTranslation();
+  const navigate = useNavigate();
+  const { user } = useAuth();
 
   const changeLanguage = (language: string) => {
     i18n.changeLanguage(language);
   };
+
+  useEffect(() => {
+    if (user) {
+      navigate("/dashboard");
+    }
+  }, []);
 
   return (
     <div className="container-fluid landing-page">
