@@ -1,13 +1,16 @@
 import { useState, useEffect, createContext, useRef } from "react";
-import { ID } from "appwrite";
-import { account } from "../appwriteConfig";
 import {
   AuthContextProps,
   UserInfoProps,
   AuthProviderProps,
-  AppwriteUserResponse,
-  AppwriteErrorProps,
 } from "./util.types";
+
+import { auth } from "../firebase";
+import {
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  User,
+} from "firebase/auth";
 
 import { Toast } from "primereact/toast";
 
@@ -17,20 +20,26 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const toast = useRef<Toast>(null);
 
   const [isLoading, setIsLoading] = useState(true);
-  const [user, setUser] = useState<AppwriteUserResponse | null>(null);
+  const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
-    checkUserStatus();
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      setUser(user);
+      setIsLoading(false);
+    });
+    return () => unsubscribe();
   }, []);
 
   const loginUser = async (userInfo: UserInfoProps) => {
     setIsLoading(true);
     try {
       const { email, password } = userInfo;
-      await account.createEmailSession(email, password);
-
-      const accountDetails = await account.get();
-      setUser(accountDetails);
+      await signInWithEmailAndPassword(auth, email, password);
+      toast.current?.show({
+        severity: "success",
+        summary: "Success",
+        detail: "User logged in successfully",
+      });
     } catch (error) {
       if (error instanceof Error) {
         toast.current?.show({
@@ -45,18 +54,28 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   };
 
   const logoutUser = async () => {
-    await account.deleteSession("current");
-    setUser(null);
+    setIsLoading(true);
+    try {
+      await auth.signOut();
+      setUser(null);
+    } catch (error) {
+      if (error instanceof Error) {
+        toast.current?.show({
+          severity: "error",
+          summary: "Error",
+          detail: error.message,
+        });
+      }
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const registerUser = async (userInfo: UserInfoProps) => {
     setIsLoading(true);
     try {
       const { email, password } = userInfo;
-      await account.create(ID.unique(), email, password);
-
-      await loginUser(userInfo);
-
+      await createUserWithEmailAndPassword(auth, email, password);
       toast.current?.show({
         severity: "success",
         summary: "Success",
@@ -75,30 +94,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
   };
 
-  const checkUserStatus = async () => {
-    try {
-      const accountDetails = await account.get();
-      setUser(accountDetails);
-    } catch (error) {
-      const appwriteError = error as AppwriteErrorProps;
-      if (appwriteError?.code !== 401) {
-        toast.current?.show({
-          severity: "error",
-          summary: "Error",
-          detail: appwriteError.message,
-        });
-      }
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
   const contextData: AuthContextProps = {
     user,
     loginUser,
     logoutUser,
     registerUser,
-    checkUserStatus,
     isLoading,
   };
 

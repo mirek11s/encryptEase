@@ -21,7 +21,6 @@ import {
   cancelOptions,
   allowedExtensions,
 } from "layouts/layoutConstants";
-import { functions } from "../../../appwriteConfig";
 import { CustomFile } from "./upload.types";
 import "./custom-file-upload.css";
 
@@ -34,7 +33,6 @@ interface CustomFileUploadProps {
 const CustomFileUpload: React.FC<CustomFileUploadProps> = ({
   t,
   selectedAlgo,
-  user,
 }) => {
   const toast = useRef<Toast>(null);
   const [totalSize, setTotalSize] = useState(0);
@@ -194,29 +192,29 @@ const CustomFileUpload: React.FC<CustomFileUploadProps> = ({
         };
       });
 
-      const filesData = await Promise.all(filesPromises);
+      // const filesData = await Promise.all(filesPromises);
 
-      const data = {
-        files: filesData,
-        encryptionKey: "mysecretkey12345",
-        algorithm: selectedAlgo,
-        fileName: "lulu1",
-        userId: user?.$id,
-      };
+      // const data = {
+      //   files: filesData,
+      //   encryptionKey: "mysecretkey12345",
+      //   algorithm: selectedAlgo,
+      //   fileName: "lulu1",
+      //   userId: user?.$id,
+      // };
 
-      try {
-        const execution = await functions.createExecution(
-          "6546c70c605fb007c8bf",
-          JSON.stringify(data),
-          false,
-          "/uploads",
-          "POST",
-          { "Content-Type": "application/json" }
-        );
-        console.log(execution);
-      } catch (err) {
-        console.error(err);
-      }
+      // try {
+      //   const execution = await functions.createExecution(
+      //     "6546c70c605fb007c8bf",
+      //     JSON.stringify(data),
+      //     false,
+      //     "/uploads",
+      //     "POST",
+      //     { "Content-Type": "application/json" }
+      //   );
+      //   console.log(execution);
+      // } catch (err) {
+      //   console.error(err);
+      // }
     } catch (error) {
       console.error("Error uploading file:", error);
       toast.current?.show({
