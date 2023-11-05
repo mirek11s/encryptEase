@@ -13,7 +13,12 @@ import { ProgressBar } from "primereact/progressbar";
 import { Button } from "primereact/button";
 import { Tooltip } from "primereact/tooltip";
 import { Tag } from "primereact/tag";
-import { AppwriteUserResponse } from "utils/util.types";
+
+// firebase
+import { User } from "firebase/auth";
+import { httpsCallable } from "firebase/functions";
+import { functions } from "../../../firebase";
+
 import { TFunction } from "i18next";
 import {
   chooseOptions,
@@ -27,16 +32,19 @@ import "./custom-file-upload.css";
 interface CustomFileUploadProps {
   t: TFunction<"translation", undefined>;
   selectedAlgo: string | null;
-  user: AppwriteUserResponse | null;
+  user: User | null;
 }
 
 const CustomFileUpload: React.FC<CustomFileUploadProps> = ({
   t,
   selectedAlgo,
+  user,
 }) => {
   const toast = useRef<Toast>(null);
   const [totalSize, setTotalSize] = useState(0);
   const fileUploadRef = useRef<FileUpload>(null);
+
+  const uploadUserFiles = httpsCallable(functions, "getUserBalance");
 
   const onSelect = (e: FileUploadSelectEvent) => {
     const files = e.files as CustomFile[];
@@ -183,6 +191,16 @@ const CustomFileUpload: React.FC<CustomFileUploadProps> = ({
 
   const uploadHandler = async (event: { files: File[] }) => {
     try {
+      if (!selectedAlgo) {
+        toast.current?.show({
+          severity: "error",
+          summary: "Error",
+          detail: "Algorithm not selected",
+        });
+        return;
+      }
+
+      // Prepare file data
       const filesPromises = event.files.map(async (file) => {
         const arrayBuffer = await file.arrayBuffer();
         return {
@@ -192,29 +210,23 @@ const CustomFileUpload: React.FC<CustomFileUploadProps> = ({
         };
       });
 
-      // const filesData = await Promise.all(filesPromises);
+      const filesData = await Promise.all(filesPromises);
 
-      // const data = {
-      //   files: filesData,
-      //   encryptionKey: "mysecretkey12345",
-      //   algorithm: selectedAlgo,
-      //   fileName: "lulu1",
-      //   userId: user?.$id,
-      // };
+      // Prepare the request body
+      const requestBody = {
+        files: filesData,
+        algorithm: selectedAlgo,
+        userId: user?.uid,
+      };
 
-      // try {
-      //   const execution = await functions.createExecution(
-      //     "6546c70c605fb007c8bf",
-      //     JSON.stringify(data),
-      //     false,
-      //     "/uploads",
-      //     "POST",
-      //     { "Content-Type": "application/json" }
-      //   );
-      //   console.log(execution);
-      // } catch (err) {
-      //   console.error(err);
-      // }
+      const response = await uploadUserFiles({ data: requestBody });
+      console.log(response);
+
+      toast.current?.show({
+        severity: "success",
+        summary: "Success",
+        detail: "File uploaded successfully",
+      });
     } catch (error) {
       console.error("Error uploading file:", error);
       toast.current?.show({

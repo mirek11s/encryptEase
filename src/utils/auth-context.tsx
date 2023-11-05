@@ -35,11 +35,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     try {
       const { email, password } = userInfo;
       await signInWithEmailAndPassword(auth, email, password);
-      toast.current?.show({
-        severity: "success",
-        summary: "Success",
-        detail: "User logged in successfully",
-      });
     } catch (error) {
       if (error instanceof Error) {
         toast.current?.show({
