@@ -37,5 +37,6 @@
   "tos-rule-7-subheader": "Changes to Terms",
   "tos-rule-7-text": "The Terms of Service may be updated periodically. Continued use signifies acceptance of these changes.",
   "tos-rule-8-subheader": "Disclaimer",
-  "tos-rule-8-text": "The app is provided 'as is' without any warranties or guarantees."
+  "tos-rule-8-text": "The app is provided 'as is' without any warranties or guarantees.",
+  "encryption-key-placeholder": "Encryption key"
 }

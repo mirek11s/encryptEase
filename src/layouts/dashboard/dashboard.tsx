@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 
 // primereact components
 import { Dropdown, DropdownChangeEvent } from "primereact/dropdown";
+import { InputText } from "primereact/inputtext";
 
 // layouts
 import CustomFileUpload from "layouts/components/custom-file-uploader/custom-file-upload";
@@ -19,21 +20,36 @@ const Dashboard: React.FC = () => {
   const { user } = useAuth();
 
   const [selectedAlgo, setSelectedAlgo] = useState("");
+  const [encryptionKey, setEncryptionKey] = useState("");
 
   return (
     <div className="container-fluid">
       <Navbar />
       <div className="container mt-5">
         <h2 className="mb-4">{t("dashboard-header")}</h2>
-        <Dropdown
-          options={algorithmOptions}
-          value={selectedAlgo}
-          onChange={(e: DropdownChangeEvent) => setSelectedAlgo(e.value)}
-          placeholder={t("dropdown--encrypt-placeholder")}
-          className="w-full md:w-14rem mb-3"
-        />
+        <div className="col-12 flex mb-3">
+          <Dropdown
+            options={algorithmOptions}
+            value={selectedAlgo}
+            onChange={(e: DropdownChangeEvent) => setSelectedAlgo(e.value)}
+            placeholder={t("dropdown--encrypt-placeholder")}
+            className="w-full md:w-14rem"
+          />
+          <InputText
+            id="userEncryptKey"
+            placeholder={t("encryption-key-placeholder")}
+            className="mx-2 w-full md:w-24rem"
+            value={encryptionKey}
+            onChange={(e) => setEncryptionKey(e.target.value)}
+          />
+        </div>
 
-        <CustomFileUpload t={t} selectedAlgo={selectedAlgo} user={user} />
+        <CustomFileUpload
+          t={t}
+          selectedAlgo={selectedAlgo}
+          encryptionKey={encryptionKey}
+          user={user}
+        />
 
         {/* <UploadedFilesTable /> */}
       </div>

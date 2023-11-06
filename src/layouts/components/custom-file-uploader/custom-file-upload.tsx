@@ -34,12 +34,14 @@ import "./custom-file-upload.css";
 interface CustomFileUploadProps {
   t: TFunction<"translation", undefined>;
   selectedAlgo: string | null;
+  encryptionKey: string;
   user: User | null;
 }
 
 const CustomFileUpload: React.FC<CustomFileUploadProps> = ({
   t,
   selectedAlgo,
+  encryptionKey,
   user,
 }) => {
   const toast = useRef<Toast>(null);
@@ -212,7 +214,7 @@ const CustomFileUpload: React.FC<CustomFileUploadProps> = ({
         files: filesData,
         algorithm: selectedAlgo,
         userId: user?.uid,
-        encryptionKey: "0011223344556677", // user must provide 16-bye key
+        encryptionKey: encryptionKey,
       };
 
       await uploadUserFiles({ ...requestBody });

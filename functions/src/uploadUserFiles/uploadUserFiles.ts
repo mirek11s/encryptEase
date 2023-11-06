@@ -1,5 +1,7 @@
 import * as functions from "firebase-functions";
 import * as cors from "cors";
+import { initializeApp } from "firebase-admin/app";
+import { firestore } from "firebase-admin";
 import { getStorage } from "firebase-admin/storage";
 import { getFirestore } from "firebase-admin/firestore";
 import { encryptFile } from "../utils/encryptFile";
@@ -8,6 +10,7 @@ import { algorithmKeyLengths, SERVER_ERROR } from "./../utils/constants";
 
 const corsHandler = cors({ origin: true });
 
+initializeApp();
 const storage = getStorage();
 const db = getFirestore();
 
@@ -56,14 +59,16 @@ export const uploadUserFiles = functions.https.onRequest(
             fileName: fileName,
             algorithm: algorithm,
             dateOfUpload: new Date(),
+            fileId: db.collection("userFiles").doc().id,
           };
 
-          // Upload file metadata to the firestore
-          await db
-            .collection("userFiles")
-            .doc(userId)
-            .collection("files")
-            .add(metadata);
+          const userFilesRef = db.collection("userFiles").doc(userId);
+          await userFilesRef.set(
+            {
+              filesMetadata: firestore.FieldValue.arrayUnion(metadata),
+            },
+            { merge: true }
+          );
 
           return { success: true, path: userSpecificPath, metadata: metadata };
         });
