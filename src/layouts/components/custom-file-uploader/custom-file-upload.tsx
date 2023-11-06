@@ -1,5 +1,4 @@
 import React, { useRef, useState } from "react";
-import { Link } from "react-router-dom";
 import { TFunction } from "i18next";
 
 // primereact components
@@ -272,9 +271,6 @@ const CustomFileUpload: React.FC<CustomFileUploadProps> = ({
         customUpload={true}
         uploadHandler={uploadHandler}
       />
-      <div className="term-condition">
-        <Link to="/terms">{t("tos")}</Link>
-      </div>
     </>
   );
 };

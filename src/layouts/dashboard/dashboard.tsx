@@ -1,19 +1,19 @@
-// src/layouts/dashboard/dashboard.tsx
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
+import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
 // primereact components
 import { Dropdown, DropdownChangeEvent } from "primereact/dropdown";
 import { InputText } from "primereact/inputtext";
-import { ToggleButton } from "primereact/togglebutton";
+import { ToggleButton, ToggleButtonChangeEvent } from "primereact/togglebutton";
 
 // layouts
 import CustomFileUpload from "layouts/components/custom-file-uploader/custom-file-upload";
+import DownloadFilesTable from "layouts/components/download-files-table/download-files-table";
 import Navbar from "layouts/components/navbar/navbar";
 
 import { useAuth } from "utils/use-auth";
 import { useIsMobile } from "utils/use-is-mobile";
-// import { UploadedFilesTable } from 'layouts/components/uploaded-files-table/uploaded-files-table';
 
 import { algorithmOptions } from "layouts/layoutConstants";
 
@@ -22,9 +22,23 @@ const Dashboard: React.FC = () => {
   const { user } = useAuth();
   const isMobile = useIsMobile();
 
-  const [checked, setChecked] = useState(false);
+  const [isUploadOn, setIsUploadOn] = useState(true);
   const [selectedAlgo, setSelectedAlgo] = useState("");
   const [encryptionKey, setEncryptionKey] = useState("");
+
+  const handleChangeDashboard = (e: ToggleButtonChangeEvent) => {
+    setIsUploadOn(e.value);
+    setSelectedAlgo("");
+    setEncryptionKey("");
+  };
+
+  const TermsLink = useMemo(() => {
+    return (
+      <div className="term-condition">
+        <Link to="/terms">{t("tos")}</Link>
+      </div>
+    );
+  }, [t]);
 
   return (
     <div className="container-fluid">
@@ -59,21 +73,33 @@ const Dashboard: React.FC = () => {
             } flex justify-content-end`}
           >
             <ToggleButton
-              checked={checked}
-              onChange={(e) => setChecked(e.value)}
-              className="w-full"
+              checked={isUploadOn}
+              onChange={handleChangeDashboard}
+              className={`w-full ${
+                isUploadOn ? "p-button-info" : "p-button-help"
+              }`}
+              onLabel={t("upload-encrypt")}
+              offLabel={t("download-decrypt")}
             />
           </div>
         </div>
 
-        <CustomFileUpload
-          t={t}
-          selectedAlgo={selectedAlgo}
-          encryptionKey={encryptionKey}
-          user={user}
-        />
-
-        {/* <UploadedFilesTable /> */}
+        {isUploadOn ? (
+          <>
+            <CustomFileUpload
+              t={t}
+              selectedAlgo={selectedAlgo}
+              encryptionKey={encryptionKey}
+              user={user}
+            />
+            {TermsLink}
+          </>
+        ) : (
+          <>
+            <DownloadFilesTable />
+            {TermsLink}
+          </>
+        )}
       </div>
     </div>
   );
