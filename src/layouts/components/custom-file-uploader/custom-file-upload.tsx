@@ -9,6 +9,8 @@ import {
   FileUploadHeaderTemplateOptions,
   FileUploadSelectEvent,
 } from "primereact/fileupload";
+
+import { ProgressSpinner } from "primereact/progressspinner";
 import { ProgressBar } from "primereact/progressbar";
 import { Button } from "primereact/button";
 import { Tooltip } from "primereact/tooltip";
@@ -43,6 +45,7 @@ const CustomFileUpload: React.FC<CustomFileUploadProps> = ({
   const toast = useRef<Toast>(null);
   const [totalSize, setTotalSize] = useState(0);
   const fileUploadRef = useRef<FileUpload>(null);
+  const [isFileUploaded, setIsFileUploaded] = useState(false);
 
   const uploadUserFiles = httpsCallable(functions, "uploadUserFiles");
 
@@ -94,8 +97,22 @@ const CustomFileUpload: React.FC<CustomFileUploadProps> = ({
         }}
       >
         {chooseButton}
-        {uploadButton}
-        {cancelButton}
+        {isFileUploaded ? (
+          <ProgressSpinner
+            style={{ width: "40px", height: "40px", margin: 0 }}
+            strokeWidth="4"
+          />
+        ) : (
+          uploadButton
+        )}
+        {isFileUploaded ? (
+          <ProgressSpinner
+            style={{ width: "40px", height: "40px", margin: 0 }}
+            strokeWidth="4"
+          />
+        ) : (
+          cancelButton
+        )}
         <div className="d-flex align-items-center gap-3 ml-auto">
           <span>{formatedValue} / 10 MB</span>
           <ProgressBar
@@ -131,12 +148,20 @@ const CustomFileUpload: React.FC<CustomFileUploadProps> = ({
           severity="warning"
           className="px-3 py-2 mx-3"
         />
-        <Button
-          type="button"
-          icon="pi pi-times"
-          className="p-button-outlined p-button-rounded custom-upload-btn p-button-danger ml-auto"
-          onClick={() => onTemplateRemove(file, props.onRemove)}
-        />
+        {isFileUploaded ? (
+          <ProgressSpinner
+            style={{ width: "40px", height: "40px", margin: 0 }}
+            className="ml-auto"
+            strokeWidth="4"
+          />
+        ) : (
+          <Button
+            type="button"
+            icon="pi pi-times"
+            className="p-button-outlined p-button-rounded custom-upload-btn p-button-danger ml-auto"
+            onClick={() => onTemplateRemove(file, props.onRemove)}
+          />
+        )}
       </div>
     );
   };
@@ -164,6 +189,7 @@ const CustomFileUpload: React.FC<CustomFileUploadProps> = ({
   };
 
   const uploadHandler = async (event: { files: File[] }) => {
+    setIsFileUploaded(true);
     try {
       if (!selectedAlgo) {
         return toastDisplay(toast, "Algorithm not selected", "error", "Error");
@@ -191,10 +217,14 @@ const CustomFileUpload: React.FC<CustomFileUploadProps> = ({
 
       await uploadUserFiles({ ...requestBody });
 
-      handleClear();
+      fileUploadRef.current?.clear(); // This will clear the files from the component
+      handleClear(); // This resets the total size back to 0
+
       toastDisplay(toast, t("success-upload"), "success", "Success");
     } catch (error) {
       toastDisplay(toast, t("error-upload"), "error", "Error");
+    } finally {
+      setIsFileUploaded(false);
     }
   };
 
