@@ -13,7 +13,6 @@ import {
 import { ProgressSpinner } from "primereact/progressspinner";
 import { ProgressBar } from "primereact/progressbar";
 import { Button } from "primereact/button";
-import { Tooltip } from "primereact/tooltip";
 import { Tag } from "primereact/tag";
 
 // firebase
@@ -68,6 +67,17 @@ const CustomFileUpload: React.FC<CustomFileUploadProps> = ({
       }
       newTotalSize += files[i].size || 0;
     }
+
+    // 10MB in bytes
+    if (newTotalSize > 10000000) {
+      toastDisplay(toast, t("error-file-size-exceeded"), "error", "Error");
+      if (fileUploadRef.current) {
+        fileUploadRef.current.clear();
+      }
+      setTotalSize(0);
+      return;
+    }
+
     setTotalSize(newTotalSize);
   };
 
@@ -194,7 +204,16 @@ const CustomFileUpload: React.FC<CustomFileUploadProps> = ({
     setIsFileUploaded(true);
     try {
       if (!selectedAlgo) {
-        return toastDisplay(toast, "Algorithm not selected", "error", "Error");
+        return toastDisplay(toast, t("algo-not-selected"), "error", "Error");
+      }
+
+      if (!encryptionKey) {
+        return toastDisplay(
+          toast,
+          "Ecryption key not provided.",
+          "error",
+          "Error"
+        );
       }
 
       // Prepare file data
@@ -233,10 +252,6 @@ const CustomFileUpload: React.FC<CustomFileUploadProps> = ({
   return (
     <>
       <Toast ref={toast} />
-
-      <Tooltip target=".custom-choose-btn" content="Choose" position="bottom" />
-      <Tooltip target=".custom-upload-btn" content="Upload" position="bottom" />
-      <Tooltip target=".custom-cancel-btn" content="Clear" position="bottom" />
 
       <FileUpload
         ref={fileUploadRef}
