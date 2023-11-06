@@ -1,19 +1,15 @@
 import * as functions from "firebase-functions";
-import { getStorage } from "firebase-admin/storage";
-import { encryptFile } from "../utils/encryptFile";
 import * as cors from "cors";
+import { getStorage } from "firebase-admin/storage";
+import { getFirestore } from "firebase-admin/firestore";
+import { encryptFile } from "../utils/encryptFile";
+import { Algorithm } from "../utils/util.types";
+import { algorithmKeyLengths, SERVER_ERROR } from "./../utils/constants";
 
 const corsHandler = cors({ origin: true });
 
-type Algorithm =
-  | "aes-256-cbc"
-  | "aes-192-cbc"
-  | "aes-128-cbc"
-  | "camellia-256-cbc"
-  | "camellia-192-cbc"
-  | "camellia-128-cbc";
-
 const storage = getStorage();
+const db = getFirestore();
 
 export const uploadUserFiles = functions.https.onRequest(
   async (request, response) => {
@@ -27,17 +23,6 @@ export const uploadUserFiles = functions.https.onRequest(
       try {
         const { files, encryptionKey, algorithm, userId } =
           request.body.data || {};
-
-        // Validate encryption key length
-        const algorithmKeyLengths: Record<Algorithm, number> = {
-          "aes-256-cbc": 32,
-          "aes-192-cbc": 24,
-          "aes-128-cbc": 16,
-          "camellia-256-cbc": 32,
-          "camellia-192-cbc": 24,
-          "camellia-128-cbc": 16,
-          // add encryptEase, Serpent and Twofish here later
-        };
 
         if (
           algorithmKeyLengths[algorithm as Algorithm] &&
@@ -60,14 +45,27 @@ export const uploadUserFiles = functions.https.onRequest(
             algorithm
           );
 
-          const userSpecificPath = `Encrypted_files/${userId}/${
-            file.name
-          }-${iv.toString("hex")}`;
+          const fileName = `${file.name}-${iv.toString("hex")}`;
+          const userSpecificPath = `Encrypted_files/${userId}/${fileName}`;
           const fileUpload = storage.bucket().file(userSpecificPath);
 
+          // Upload encrypted file to the storage
           await fileUpload.save(encrypted);
 
-          return { success: true, path: userSpecificPath };
+          const metadata = {
+            fileName: fileName,
+            algorithm: algorithm,
+            dateOfUpload: new Date(),
+          };
+
+          // Upload file metadata to the firestore
+          await db
+            .collection("userFiles")
+            .doc(userId)
+            .collection("files")
+            .add(metadata);
+
+          return { success: true, path: userSpecificPath, metadata: metadata };
         });
 
         const uploadResponses = await Promise.all(uploadPromises);
@@ -81,7 +79,7 @@ export const uploadUserFiles = functions.https.onRequest(
         functions.logger.error("Error processing file upload request", error);
         response.status(500).send({
           success: false,
-          message: "Internal Server Error",
+          message: SERVER_ERROR,
         });
       }
     });

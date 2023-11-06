@@ -1,6 +1,7 @@
 import * as functions from "firebase-functions";
 import { getStorage } from "firebase-admin/storage";
 import { createDecipheriv } from "crypto";
+import { SERVER_ERROR } from "../utils/constants";
 
 const storage = getStorage();
 
@@ -17,7 +18,6 @@ export const downloadUserFiles = functions.https.onRequest(
         iv
       );
 
-      // Define the path to the file
       const filePath = `Encrypted_files/${userId}/${fileName}`;
 
       // Download the file from Firebase Storage
@@ -35,9 +35,7 @@ export const downloadUserFiles = functions.https.onRequest(
       response.send({ success: true, file: decrypted.toString("utf-8") });
     } catch (error) {
       functions.logger.error("Error downloading or decrypting file", error);
-      response
-        .status(500)
-        .send({ success: false, message: "Internal Server Error" });
+      response.status(500).send({ success: false, message: SERVER_ERROR });
     }
   }
 );
