@@ -4,6 +4,7 @@ import {
   UserInfoProps,
   AuthProviderProps,
 } from "./util.types";
+import { toastDisplay } from "layouts/layoutUtils";
 
 import { auth } from "../firebase";
 import {
@@ -37,11 +38,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       await signInWithEmailAndPassword(auth, email, password);
     } catch (error) {
       if (error instanceof Error) {
-        toast.current?.show({
-          severity: "error",
-          summary: "Error",
-          detail: error.message,
-        });
+        toastDisplay(toast, error.message, "error", "Error");
       }
     } finally {
       setIsLoading(false);
@@ -55,11 +52,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       setUser(null);
     } catch (error) {
       if (error instanceof Error) {
-        toast.current?.show({
-          severity: "error",
-          summary: "Error",
-          detail: error.message,
-        });
+        toastDisplay(toast, error.message, "error", "Error");
       }
     } finally {
       setIsLoading(false);
@@ -71,18 +64,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     try {
       const { email, password } = userInfo;
       await createUserWithEmailAndPassword(auth, email, password);
-      toast.current?.show({
-        severity: "success",
-        summary: "Success",
-        detail: "User registered successfully",
-      });
+      toastDisplay(toast, "User registered successfully", "success", "Success");
     } catch (error) {
       if (error instanceof Error) {
-        toast.current?.show({
-          severity: "error",
-          summary: "Error",
-          detail: error.message,
-        });
+        toastDisplay(toast, error.message, "error", "Error");
       }
     } finally {
       setIsLoading(false);

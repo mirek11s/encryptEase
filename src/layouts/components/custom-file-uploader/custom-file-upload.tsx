@@ -1,12 +1,12 @@
 import React, { useRef, useState } from "react";
 import { Link } from "react-router-dom";
+import { TFunction } from "i18next";
 
 // primereact components
 import { Toast } from "primereact/toast";
 import {
   FileUpload,
   FileUploadHeaderTemplateOptions,
-  FileUploadUploadEvent,
   FileUploadSelectEvent,
 } from "primereact/fileupload";
 import { ProgressBar } from "primereact/progressbar";
@@ -19,13 +19,13 @@ import { User } from "firebase/auth";
 import { httpsCallable } from "firebase/functions";
 import { functions } from "../../../firebase";
 
-import { TFunction } from "i18next";
 import {
   chooseOptions,
   uploadOptions,
   cancelOptions,
   allowedExtensions,
 } from "layouts/layoutConstants";
+import { toastDisplay } from "layouts/layoutUtils";
 import { CustomFile } from "./upload.types";
 import "./custom-file-upload.css";
 
@@ -56,40 +56,14 @@ const CustomFileUpload: React.FC<CustomFileUploadProps> = ({
         ((files[i].name.lastIndexOf(".") - 1) >>> 0) + 2
       );
       if (!allowedExtensions.includes("." + fileExtension)) {
-        toast.current?.show({
-          severity: "error",
-          summary: "Error",
-          detail: `${files[i].name} ${t("error-file-not-supported")}`,
-        });
-        return;
+        const toastDetails = `${files[i].name} ${t(
+          "error-file-not-supported"
+        )}`;
+        return toastDisplay(toast, toastDetails, "error", "Error");
       }
       newTotalSize += files[i].size || 0;
     }
     setTotalSize(newTotalSize);
-  };
-
-  const onUpload = (e: FileUploadUploadEvent) => {
-    if (selectedAlgo) {
-      let _totalSize = 0;
-
-      e.files.forEach((file) => {
-        _totalSize += file.size || 0;
-      });
-
-      setTotalSize(_totalSize);
-      toast.current?.show({
-        severity: "info",
-        summary: "Success",
-        detail: t("success-upload"),
-      });
-    } else {
-      toast.current?.show({
-        severity: "error",
-        summary: "Error",
-        detail: t("error-no-algorithm"),
-      });
-      e.files = [];
-    }
   };
 
   const onTemplateRemove = (file: File, callback: () => void) => {
@@ -192,12 +166,7 @@ const CustomFileUpload: React.FC<CustomFileUploadProps> = ({
   const uploadHandler = async (event: { files: File[] }) => {
     try {
       if (!selectedAlgo) {
-        toast.current?.show({
-          severity: "error",
-          summary: "Error",
-          detail: "Algorithm not selected",
-        });
-        return;
+        return toastDisplay(toast, "Algorithm not selected", "error", "Error");
       }
 
       // Prepare file data
@@ -217,24 +186,15 @@ const CustomFileUpload: React.FC<CustomFileUploadProps> = ({
         files: filesData,
         algorithm: selectedAlgo,
         userId: user?.uid,
-        encryptionKey: "00112233445566778899aabbccddeeff", // user must provide 16-bye key
+        encryptionKey: "0011223344556677", // user must provide 16-bye key
       };
 
-      const response = await uploadUserFiles({ ...requestBody });
-      console.log(response);
+      await uploadUserFiles({ ...requestBody });
 
-      toast.current?.show({
-        severity: "success",
-        summary: "Success",
-        detail: "File uploaded successfully",
-      });
+      handleClear();
+      toastDisplay(toast, t("success-upload"), "success", "Success");
     } catch (error) {
-      console.error("Error uploading file:", error);
-      toast.current?.show({
-        severity: "error",
-        summary: "Error",
-        detail: t("error-upload"),
-      });
+      toastDisplay(toast, t("error-upload"), "error", "Error");
     }
   };
 
@@ -253,7 +213,6 @@ const CustomFileUpload: React.FC<CustomFileUploadProps> = ({
         multiple
         accept=".txt,.pdf,.doc,.docx,.odt,.pages"
         maxFileSize={10000000} // 10 MB
-        onUpload={onUpload}
         onSelect={onSelect}
         onError={handleClear}
         onClear={handleClear}
