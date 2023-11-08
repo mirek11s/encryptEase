@@ -16,6 +16,7 @@ import { ProgressBar } from "primereact/progressbar";
 
 import { FileData, FirebaseFileDataResponse } from "layouts/layout.types";
 import { toastDisplay } from "layouts/layoutUtils";
+import ActionsDialog from "./actions-dialog/actions-dialog";
 import "./download-files-table.css";
 
 interface DownloadFilesTableProps {
@@ -28,6 +29,8 @@ const DownloadFilesTable: React.FC<DownloadFilesTableProps> = ({ t, user }) => {
 
   const [files, setFiles] = useState<FileData[]>();
   const [isFilesLoading, setIsFilesLoading] = useState(true);
+  const [displayModal, setDisplayModal] = useState(false);
+  const [selectedFile, setSelectedFile] = useState<FileData | null>(null);
 
   const { uid: userId } = user || {};
 
@@ -59,11 +62,18 @@ const DownloadFilesTable: React.FC<DownloadFilesTableProps> = ({ t, user }) => {
     fetchFiles();
   }, [userId]);
 
+  const handleToggleModal = (file: FileData) => {
+    setSelectedFile(file);
+    setDisplayModal(!displayModal);
+  };
+
   const actionBodyTemplate = (rowData: FileData) => {
     return (
       <Button
         icon="pi pi-download"
-        className="p-button-rounded p-button-success"
+        className="p-button-rounded p-button-help"
+        style={{ borderRadius: "50%" }}
+        onClick={() => handleToggleModal(rowData)}
       />
     );
   };
@@ -93,6 +103,12 @@ const DownloadFilesTable: React.FC<DownloadFilesTableProps> = ({ t, user }) => {
         </DataTable>
       )}
       <Toast ref={toast} />
+
+      <ActionsDialog
+        displayModal={displayModal}
+        setDisplayModal={setDisplayModal}
+        selectedFile={selectedFile}
+      />
     </>
   );
 };

@@ -49,5 +49,5 @@
   "date-of-upload": "Date of Upload",
   "file-id": "File ID",
   "actions": "Actions",
-  "note-msg-dashboard": "NOTE: Provide a 32 characters, 256 encryption key. Example: nThhx0qig4L55HXZv4YN5o64iFEM0ZZy."
+  "note-msg-dashboard": "NOTE: Provide a 32 characters, 256-bit encryption key. Example: nThhx0qig4L55HXZv4YN5o64iFEM0ZZy."
 }

@@ -42,7 +42,7 @@ const Navbar: React.FC = () => {
             <Link to="/signin" className="mx-2">
               <Button
                 icon="pi pi-sign-out"
-                className="p-button-outlined p-button-secondary"
+                className="p-button-rounded p-button-outlined p-button-help"
                 onClick={logoutUser}
                 style={{ borderRadius: "50%" }}
               />
