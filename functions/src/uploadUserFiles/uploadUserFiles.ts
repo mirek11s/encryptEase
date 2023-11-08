@@ -5,7 +5,8 @@ import { firestore } from "firebase-admin";
 import { getStorage } from "firebase-admin/storage";
 import { getFirestore } from "firebase-admin/firestore";
 import { encryptFile } from "../utils/encryptFile";
-import { SERVER_ERROR } from "./../utils/constants";
+import { SERVER_ERROR, allowedExtensions } from "./../utils/constants";
+import { UploadedFileProps } from "../utils/util.types";
 
 const corsHandler = cors({ origin: true });
 
@@ -30,6 +31,21 @@ export const uploadUserFiles = functions.https.onRequest(
           response.status(400).send({
             success: false,
             message: "Invalid encryption key length",
+          });
+          return;
+        }
+
+        // Check if files have allowed extensions
+        const hasInvalidFiles = files.some((file: UploadedFileProps) => {
+          const fileExtension = file.name.split(".").pop();
+          return !allowedExtensions.has("." + fileExtension);
+        });
+
+        if (hasInvalidFiles) {
+          response.status(400).send({
+            success: false,
+            message:
+              "Invalid file type. Allowed types are .doc, .docx, .pdf, .txt, .odt, .pages",
           });
           return;
         }

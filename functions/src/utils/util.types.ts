@@ -5,3 +5,9 @@ export type Algorithm =
   | "camellia-256-cbc"
   | "camellia-192-cbc"
   | "camellia-128-cbc";
+
+export interface UploadedFileProps {
+  name: string;
+  type: string;
+  data: number[];
+}
