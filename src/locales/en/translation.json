@@ -42,5 +42,11 @@
   "error-file-size-exceeded": "Limit of 10MB exceeded.",
   "algo-not-selected": "Algorithm not selected.",
   "upload-encrypt": "Upload / Encrypt",
-  "download-decrypt": "Download / Decrypt"
+  "download-decrypt": "Download / Decrypt",
+  "error-fetching-files": "Error fetching user files",
+  "file-name": "File Name",
+  "algorithm": "Algorithm",
+  "date-of-upload": "Date of Upload",
+  "file-id": "File ID",
+  "actions": "Actions"
 }

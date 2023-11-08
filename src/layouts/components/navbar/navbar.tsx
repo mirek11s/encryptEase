@@ -44,6 +44,7 @@ const Navbar: React.FC = () => {
                 icon="pi pi-sign-out"
                 className="p-button-outlined p-button-secondary"
                 onClick={logoutUser}
+                style={{ borderRadius: "50%" }}
               />
             </Link>
           )}

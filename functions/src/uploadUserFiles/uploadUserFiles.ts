@@ -1,18 +1,16 @@
 import * as functions from "firebase-functions";
 import * as cors from "cors";
-import { initializeApp } from "firebase-admin/app";
+import { getApp } from "firebase-admin/app";
 import { firestore } from "firebase-admin";
 import { getStorage } from "firebase-admin/storage";
 import { getFirestore } from "firebase-admin/firestore";
 import { encryptFile } from "../utils/encryptFile";
-import { Algorithm } from "../utils/util.types";
-import { algorithmKeyLengths, SERVER_ERROR } from "./../utils/constants";
+import { SERVER_ERROR } from "./../utils/constants";
 
 const corsHandler = cors({ origin: true });
 
-initializeApp();
-const storage = getStorage();
-const db = getFirestore();
+const storage = getStorage(getApp());
+const db = getFirestore(getApp());
 
 export const uploadUserFiles = functions.https.onRequest(
   async (request, response) => {
@@ -27,10 +25,7 @@ export const uploadUserFiles = functions.https.onRequest(
         const { files, encryptionKey, algorithm, userId } =
           request.body.data || {};
 
-        if (
-          algorithmKeyLengths[algorithm as Algorithm] &&
-          encryptionKey.length !== algorithmKeyLengths[algorithm as Algorithm]
-        ) {
+        if (encryptionKey.length !== 64) {
           response.status(400).send({
             success: false,
             message: "Invalid encryption key length",

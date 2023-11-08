@@ -43,5 +43,11 @@
   "error-file-size-exceeded": "Лимитът за размер на файловете е 10MB.",
   "algo-not-selected": "Моля, изберете алгоритъм.",
   "upload-encrypt": "Качи / Криптирай",
-  "download-decrypt": "Свали / Декриптирай"
+  "download-decrypt": "Свали / Декриптирай",
+  "error-fetching-files": "Възникна грешка при зареждането на файловете.",
+  "file-name": "Име на Файл",
+  "algorithm": "Алгоритъм",
+  "date-of-upload": "Дата на Качване",
+  "file-id": "Идентификатор на Файл",
+  "actions": "Действия"
 }

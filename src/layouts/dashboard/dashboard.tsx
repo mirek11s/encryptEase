@@ -51,13 +51,16 @@ const Dashboard: React.FC = () => {
               isMobile ? "col-12" : "col-10"
             } flex justify-content-between`}
           >
-            <Dropdown
-              options={algorithmOptions}
-              value={selectedAlgo}
-              onChange={(e: DropdownChangeEvent) => setSelectedAlgo(e.value)}
-              placeholder={t("dropdown--encrypt-placeholder")}
-              className="w-full md:w-14rem"
-            />
+            <div>
+              <i className="pi pi-check"></i>
+              <Dropdown
+                options={algorithmOptions}
+                value={selectedAlgo}
+                onChange={(e: DropdownChangeEvent) => setSelectedAlgo(e.value)}
+                placeholder={t("dropdown--encrypt-placeholder")}
+                className="w-full md:w-14rem"
+              />
+            </div>
 
             <InputText
               id="userEncryptKey"
@@ -96,7 +99,7 @@ const Dashboard: React.FC = () => {
           </>
         ) : (
           <>
-            <DownloadFilesTable />
+            <DownloadFilesTable t={t} user={user} />
             {TermsLink}
           </>
         )}
