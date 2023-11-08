@@ -48,5 +48,6 @@
   "algorithm": "Algorithm",
   "date-of-upload": "Date of Upload",
   "file-id": "File ID",
-  "actions": "Actions"
+  "actions": "Actions",
+  "note-msg-dashboard": "NOTE: Provide a 64 characters long key (32 bytes)."
 }

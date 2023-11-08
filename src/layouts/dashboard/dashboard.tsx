@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
 // primereact components
-import { Dropdown, DropdownChangeEvent } from "primereact/dropdown";
+import { Dropdown } from "primereact/dropdown";
 import { InputText } from "primereact/inputtext";
 import { ToggleButton, ToggleButtonChangeEvent } from "primereact/togglebutton";
 
@@ -51,16 +51,13 @@ const Dashboard: React.FC = () => {
               isMobile ? "col-12" : "col-10"
             } flex justify-content-between`}
           >
-            <div>
-              <i className="pi pi-check"></i>
-              <Dropdown
-                options={algorithmOptions}
-                value={selectedAlgo}
-                onChange={(e: DropdownChangeEvent) => setSelectedAlgo(e.value)}
-                placeholder={t("dropdown--encrypt-placeholder")}
-                className="w-full md:w-14rem"
-              />
-            </div>
+            <Dropdown
+              options={algorithmOptions}
+              value={selectedAlgo}
+              onChange={(e) => setSelectedAlgo(e.value)}
+              placeholder={t("dropdown--encrypt-placeholder")}
+              className="w-full md:w-14rem"
+            />
 
             <InputText
               id="userEncryptKey"
@@ -85,6 +82,7 @@ const Dashboard: React.FC = () => {
               offLabel={t("download-decrypt")}
             />
           </div>
+          <small>{t("note-msg-dashboard")}</small>
         </div>
 
         {isUploadOn ? (
