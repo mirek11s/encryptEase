@@ -77,7 +77,7 @@ const DownloadFilesTable: React.FC<DownloadFilesTableProps> = ({ t, user }) => {
   ];
 
   return (
-    <div className="download-table-container">
+    <>
       {isFilesLoading ? (
         <ProgressBar mode="indeterminate" style={{ height: "6px" }} />
       ) : (
@@ -93,7 +93,7 @@ const DownloadFilesTable: React.FC<DownloadFilesTableProps> = ({ t, user }) => {
         </DataTable>
       )}
       <Toast ref={toast} />
-    </div>
+    </>
   );
 };
 

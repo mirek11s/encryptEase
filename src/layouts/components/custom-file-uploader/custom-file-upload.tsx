@@ -249,7 +249,7 @@ const CustomFileUpload: React.FC<CustomFileUploadProps> = ({
   };
 
   return (
-    <div className="upload-container">
+    <>
       <Toast ref={toast} />
 
       <FileUpload
@@ -271,7 +271,7 @@ const CustomFileUpload: React.FC<CustomFileUploadProps> = ({
         customUpload={true}
         uploadHandler={uploadHandler}
       />
-    </div>
+    </>
   );
 };
 
