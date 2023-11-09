@@ -36,6 +36,8 @@ interface CustomFileUploadProps {
   user: User | null;
 }
 
+type ValidationError = string | null;
+
 const CustomFileUpload: React.FC<CustomFileUploadProps> = ({
   t,
   selectedAlgo,
@@ -200,24 +202,22 @@ const CustomFileUpload: React.FC<CustomFileUploadProps> = ({
     );
   };
 
+  const validateUpload = (
+    selectedAlgo: string | null,
+    encryptionKey: string
+  ): ValidationError => {
+    if (!selectedAlgo) return t("algo-not-selected");
+    if (!encryptionKey) return "Encryption key not provided.";
+    if (!isValidHex(encryptionKey)) return t("encryption-key-error");
+    return null; // No errors
+  };
+
   const uploadHandler = async (event: { files: File[] }) => {
     setIsFileUploaded(true);
     try {
-      if (!selectedAlgo) {
-        return toastDisplay(toast, t("algo-not-selected"), "error", "Error");
-      }
-
-      if (!encryptionKey) {
-        return toastDisplay(
-          toast,
-          "Ecryption key not provided.",
-          "error",
-          "Error"
-        );
-      }
-
-      if (!isValidHex(encryptionKey)) {
-        return toastDisplay(toast, t("encryption-key-error"), "error", "Error");
+      const errorMessage = validateUpload(selectedAlgo, encryptionKey);
+      if (errorMessage) {
+        return toastDisplay(toast, errorMessage, "error", "Error");
       }
 
       // Prepare file data

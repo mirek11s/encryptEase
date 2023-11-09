@@ -29,8 +29,9 @@ const ActionsDialog: React.FC<ActionsDialogProps> = ({
   const { t } = useTranslation("translation");
 
   const [encryptionKey, setEncryptionkey] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
-  const cleanUp = () => {
+  const handleCloseModal = () => {
     setEncryptionkey("");
     setDisplayModal(false);
   };
@@ -44,6 +45,7 @@ const ActionsDialog: React.FC<ActionsDialogProps> = ({
    */
   const handleFileDownload = async () => {
     if (encryptionKey && userId && selectedFile) {
+      setIsLoading(true);
       try {
         const response = await fetch(
           "https://us-central1-encryptease.cloudfunctions.net/downloadUserFiles",
@@ -81,9 +83,11 @@ const ActionsDialog: React.FC<ActionsDialogProps> = ({
         window.URL.revokeObjectURL(downloadUrl);
         document.body.removeChild(a);
 
-        cleanUp();
+        handleCloseModal();
       } catch (error) {
         toastDisplay(toast, t("error-fetching-files"), "error", "Error");
+      } finally {
+        setIsLoading(false);
       }
     }
   };
@@ -94,13 +98,14 @@ const ActionsDialog: React.FC<ActionsDialogProps> = ({
         label="Cancel"
         icon="pi pi-times"
         className="p-button-outlined p-button-help actions-footer-buttons"
-        onClick={() => setDisplayModal(false)}
+        onClick={handleCloseModal}
       />
       <Button
         label="Download"
         icon="pi pi-download"
         onClick={handleFileDownload}
         className="p-button-help actions-footer-buttons"
+        loading={isLoading}
       />
     </div>
   );
@@ -111,7 +116,7 @@ const ActionsDialog: React.FC<ActionsDialogProps> = ({
       visible={displayModal}
       style={{ width: "50vw" }}
       footer={dialogFooter}
-      onHide={() => setDisplayModal(false)}
+      onHide={handleCloseModal}
     >
       {selectedFile && (
         <div>

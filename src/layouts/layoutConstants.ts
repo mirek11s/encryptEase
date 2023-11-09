@@ -32,8 +32,5 @@ export const allowedExtensions = [
 export const algorithmOptions = [
   { label: "AES-256-CBC", value: "aes-256-cbc" },
   { label: "Camellia-256-CBC", value: "camellia-256-cbc" },
-  { label: "EncryptEase", value: "encryptEase" },
-  { label: "Serpent", value: "serpent" },
-  { label: "Twofish", value: "twofish" },
-  // Note: Serpent and Twofish are not natively supported by Node.js's crypto module
+  { label: "EncryptEase-256-custom", value: "encryptEase-256-custom" },
 ];

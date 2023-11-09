@@ -1,4 +1,5 @@
 import { randomBytes, createCipheriv } from "crypto";
+import { customEncrypt } from "./customAlgo/customEnrypt";
 
 export const encryptFile = (
   fileBuffer: Buffer,
@@ -10,9 +11,17 @@ export const encryptFile = (
     throw new Error("Key must be 32 bytes in length.");
   }
 
-  const iv = randomBytes(16); // Initialization vector
-  const cipher = createCipheriv(algorithm, keyBuffer, iv);
-  const encrypted = Buffer.concat([cipher.update(fileBuffer), cipher.final()]);
+  if (algorithm === "encryptEase-256-custom") {
+    // My algorithm
+    return customEncrypt(fileBuffer, encryptionKey);
+  } else {
+    const iv = randomBytes(16); // Initialization vector
+    const cipher = createCipheriv(algorithm, keyBuffer, iv);
+    const encrypted = Buffer.concat([
+      cipher.update(fileBuffer),
+      cipher.final(),
+    ]);
 
-  return { encrypted, iv };
+    return { encrypted, iv };
+  }
 };
