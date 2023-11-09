@@ -71,7 +71,7 @@ const CustomFileUpload: React.FC<CustomFileUploadProps> = ({
     }
 
     // 5MB in bytes
-    if (newTotalSize > 15000000) {
+    if (newTotalSize > 5000000) {
       toastDisplay(toast, t("error-file-size-exceeded"), "error", "Error");
       if (fileUploadRef.current) {
         fileUploadRef.current.clear();
