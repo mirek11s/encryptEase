@@ -11,3 +11,15 @@ export interface UploadedFileProps {
   type: string;
   data: number[];
 }
+
+export interface FirebaseDateFormat {
+  id: string;
+  algorithm: string;
+  fileId: string;
+  fileName: string;
+  dateOfUpload: {
+    _seconds: number;
+    _nanoseconds: number;
+  };
+  iv: string;
+}

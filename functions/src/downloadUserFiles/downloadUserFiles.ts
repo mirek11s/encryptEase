@@ -1,41 +1,69 @@
 import * as functions from "firebase-functions";
+import * as cors from "cors";
+import { getApp } from "firebase-admin/app";
+import { getFirestore } from "firebase-admin/firestore";
 import { getStorage } from "firebase-admin/storage";
-import { createDecipheriv } from "crypto";
-import { SERVER_ERROR } from "../utils/constants";
+import { decryptFile } from "../utils/decryptFile";
+import { FirebaseDateFormat } from "./../utils/util.types";
 
-const storage = getStorage();
+const corsHandler = cors({ origin: true });
+const storage = getStorage(getApp());
+const db = getFirestore(getApp());
 
 export const downloadUserFiles = functions.https.onRequest(
   async (request, response) => {
-    try {
-      // Extract required information from request
-      const { userId, fileName, encryptionKey, algorithm, ivHex } =
-        request.body;
-      const iv = Buffer.from(ivHex, "hex");
-      const decipher = createDecipheriv(
-        algorithm,
-        Buffer.from(encryptionKey, "hex"),
-        iv
-      );
+    corsHandler(request, response, async () => {
+      if (request.method !== "POST") {
+        response.status(405).send("Method Not Allowed");
+        return;
+      }
 
-      const filePath = `Encrypted_files/${userId}/${fileName}`;
+      try {
+        const { userId, fileId, encryptionKey } = request.body.data || {};
 
-      // Download the file from Firebase Storage
-      const fileDownload = storage.bucket().file(filePath);
-      const fileContentsBuffer = await fileDownload.download();
+        // Fetch the file metadata from Firestore
+        const userFilesRef = db.collection("userFiles").doc(userId);
+        const doc = await userFilesRef.get();
+        const metadata = doc
+          .data()
+          ?.filesMetadata.find(
+            (file: FirebaseDateFormat) => file.fileId === fileId
+          );
 
-      // Decrypt the file
-      const decrypted = Buffer.concat([
-        decipher.update(fileContentsBuffer[0]),
-        decipher.final(),
-      ]);
+        if (!metadata) {
+          response.status(404).send("File not found");
+          return;
+        }
 
-      // Here you would typically send the decrypted file back to the user
-      // This might involve converting it to a Blob or similar, depending on your front-end setup
-      response.send({ success: true, file: decrypted.toString("utf-8") });
-    } catch (error) {
-      functions.logger.error("Error downloading or decrypting file", error);
-      response.status(500).send({ success: false, message: SERVER_ERROR });
-    }
+        const iv = Buffer.from(metadata.iv, "hex");
+
+        // Fetch the encrypted file from Storage
+        const file = storage
+          .bucket()
+          .file(`Encrypted_files/${userId}/${metadata.fileName}`);
+        const [encryptedFileBuffer] = await file.download();
+
+        // Decrypt the file
+        const decryptedFileBuffer = decryptFile(
+          encryptedFileBuffer,
+          encryptionKey,
+          iv,
+          metadata.algorithm
+        );
+
+        // Set headers for download
+        response.setHeader(
+          "Content-Disposition",
+          `attachment; filename="${encodeURIComponent(metadata.fileName)}"`
+        );
+        response.setHeader("Content-Type", "application/octet-stream");
+
+        // Send the decrypted file buffer
+        response.send(decryptedFileBuffer);
+      } catch (error) {
+        functions.logger.error("Error downloading file", error);
+        response.status(500).send("Server Error");
+      }
+    });
   }
 );

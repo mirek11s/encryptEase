@@ -32,7 +32,7 @@ const DownloadFilesTable: React.FC<DownloadFilesTableProps> = ({ t, user }) => {
   const [displayModal, setDisplayModal] = useState(false);
   const [selectedFile, setSelectedFile] = useState<FileData | null>(null);
 
-  const { uid: userId } = user || {};
+  const { uid: userId = "" } = user || {};
 
   const getUserFilesMetadata = httpsCallable(functions, "getUserFilesMetadata");
 
@@ -108,6 +108,8 @@ const DownloadFilesTable: React.FC<DownloadFilesTableProps> = ({ t, user }) => {
         displayModal={displayModal}
         setDisplayModal={setDisplayModal}
         selectedFile={selectedFile}
+        userId={userId}
+        toast={toast}
       />
     </>
   );

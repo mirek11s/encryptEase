@@ -51,18 +51,18 @@ export const uploadUserFiles = functions.https.onRequest(
             algorithm
           );
 
-          const fileName = `${file.name}-${iv.toString("hex")}`;
-          const userSpecificPath = `Encrypted_files/${userId}/${fileName}`;
+          const userSpecificPath = `Encrypted_files/${userId}/${file.name}`;
           const fileUpload = storage.bucket().file(userSpecificPath);
 
           // Upload encrypted file to the storage
           await fileUpload.save(encrypted);
 
           const metadata = {
-            fileName: fileName,
+            fileName: file.name,
             algorithm: algorithm,
             dateOfUpload: new Date(),
             fileId: db.collection("userFiles").doc().id,
+            iv: iv.toString("hex"),
           };
 
           const userFilesRef = db.collection("userFiles").doc(userId);

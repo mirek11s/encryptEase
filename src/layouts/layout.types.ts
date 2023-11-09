@@ -11,6 +11,7 @@ interface FirebaseDateFormat {
     _seconds: number;
     _nanoseconds: number;
   };
+  iv: string;
 }
 
 export interface FileData {
@@ -19,6 +20,7 @@ export interface FileData {
   fileId: string;
   fileName: string;
   dateOfUpload: string;
+  iv: string;
 }
 
 export interface FirebaseFileDataResponse {

@@ -41,7 +41,7 @@
   "encryption-key-placeholder": "Encryption key",
   "error-file-size-exceeded": "Limit of 10MB exceeded.",
   "algo-not-selected": "Algorithm not selected.",
-  "upload-encrypt": "View files",
+  "upload-encrypt": "My files",
   "download-decrypt": "Upload a file",
   "error-fetching-files": "Error fetching user files",
   "file-name": "File Name",
