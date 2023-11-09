@@ -25,7 +25,7 @@ import {
   cancelOptions,
   allowedExtensions,
 } from "layouts/layoutConstants";
-import { toastDisplay } from "layouts/layoutUtils";
+import { toastDisplay, isValidHex } from "layouts/layoutUtils";
 import { CustomFile } from "../../layout.types";
 import "./custom-file-upload.css";
 
@@ -43,8 +43,9 @@ const CustomFileUpload: React.FC<CustomFileUploadProps> = ({
   user,
 }) => {
   const toast = useRef<Toast>(null);
-  const [totalSize, setTotalSize] = useState(0);
   const fileUploadRef = useRef<FileUpload>(null);
+
+  const [totalSize, setTotalSize] = useState(0);
   const [isFileUploaded, setIsFileUploaded] = useState(false);
 
   const uploadUserFiles = httpsCallable(functions, "uploadUserFiles");
@@ -213,6 +214,10 @@ const CustomFileUpload: React.FC<CustomFileUploadProps> = ({
           "error",
           "Error"
         );
+      }
+
+      if (!isValidHex(encryptionKey)) {
+        return toastDisplay(toast, t("encryption-key-error"), "error", "Error");
       }
 
       // Prepare file data

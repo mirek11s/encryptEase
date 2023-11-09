@@ -50,5 +50,6 @@
   "date-of-upload": "Дата на Качване",
   "file-id": "Идентификатор на Файл",
   "actions": "Действия",
-  "note-msg-dashboard": "ЗАБЕЛЕЖКА: Предоставете 32-byte hex, 256-bit ключ за криптиране. Пример: 7640ae0007a08bec978265685dfc1126aca410419f403e1637e0ce0fcfef2ae8."
+  "note-msg-dashboard": "ЗАБЕЛЕЖКА: Предоставете 32-byte hex, 256-bit ключ за криптиране. Пример: 7640ae0007a08bec978265685dfc1126aca410419f403e1637e0ce0fcfef2ae8.",
+  "encryption-key-error": "Моля, въведете 32-byte hex, 256-bit ключ за криптиране."
 }

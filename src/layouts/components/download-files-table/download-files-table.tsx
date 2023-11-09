@@ -89,9 +89,9 @@ const DownloadFilesTable: React.FC<DownloadFilesTableProps> = ({ t, user }) => {
   return (
     <>
       {isFilesLoading ? (
-        <ProgressBar mode="indeterminate" style={{ height: "6px" }} />
+        <ProgressBar mode="indeterminate" style={{ height: "0.375rem" }} />
       ) : (
-        <DataTable value={files}>
+        <DataTable value={files} scrollable scrollHeight="25rem">
           {columns.map((col) => (
             <Column
               key={col.header}

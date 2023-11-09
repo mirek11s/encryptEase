@@ -19,3 +19,5 @@ export const toastDisplay = (
     detail: details,
   });
 };
+
+export const isValidHex = (hex: string) => /^[A-Fa-f0-9]{64}$/.test(hex);
