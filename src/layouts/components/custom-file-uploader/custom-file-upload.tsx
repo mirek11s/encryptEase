@@ -70,8 +70,8 @@ const CustomFileUpload: React.FC<CustomFileUploadProps> = ({
       newTotalSize += files[i].size || 0;
     }
 
-    // 10MB in bytes
-    if (newTotalSize > 10000000) {
+    // 5MB in bytes
+    if (newTotalSize > 15000000) {
       toastDisplay(toast, t("error-file-size-exceeded"), "error", "Error");
       if (fileUploadRef.current) {
         fileUploadRef.current.clear();
@@ -94,7 +94,7 @@ const CustomFileUpload: React.FC<CustomFileUploadProps> = ({
 
   const headerTemplate = (options: FileUploadHeaderTemplateOptions) => {
     const { className, chooseButton, uploadButton, cancelButton } = options;
-    const maxFileSize = 10000000; // 10 MB
+    const maxFileSize = 5000000; // 5 MB
     const value = (totalSize / maxFileSize) * 100; // Calculate percentage
     const formatedValue =
       fileUploadRef && fileUploadRef.current
@@ -128,7 +128,7 @@ const CustomFileUpload: React.FC<CustomFileUploadProps> = ({
           cancelButton
         )}
         <div className="d-flex align-items-center gap-3 ml-auto">
-          <span>{formatedValue} / 10 MB</span>
+          <span>{formatedValue} / 5 MB</span>
           <ProgressBar
             value={value}
             showValue={false}
@@ -263,7 +263,7 @@ const CustomFileUpload: React.FC<CustomFileUploadProps> = ({
         url="/api/upload"
         multiple
         accept=".txt,.pdf,.doc,.docx,.odt,.pages"
-        maxFileSize={10000000} // 10 MB
+        maxFileSize={5000000} // 5 MB
         onSelect={onSelect}
         onError={handleClear}
         onClear={handleClear}

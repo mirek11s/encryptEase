@@ -41,7 +41,7 @@
   "tos-rule-9-subheader": "Permitted Testing",
   "tos-rule-9-text": "Users are granted permission to conduct security penetration testing against this web application and its associated back-end infrastructure, provided such activities do not induce Denial of Service (DoS) or any form of attacks that could lead to server overloads, resulting in excessive costs. Should any user engage in activities that compromise the service availability, including but not limited to DoS attacks, the proprietor reserves the right to seek remediation through legal means or law enforcement assistance.",
   "encryption-key-placeholder": "Encryption key",
-  "error-file-size-exceeded": "Limit of 10MB exceeded.",
+  "error-file-size-exceeded": "Limit of 5MB exceeded.",
   "algo-not-selected": "Algorithm not selected.",
   "upload-encrypt": "My files",
   "download-decrypt": "Upload a file",

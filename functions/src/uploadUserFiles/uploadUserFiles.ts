@@ -5,7 +5,11 @@ import { firestore } from "firebase-admin";
 import { getStorage } from "firebase-admin/storage";
 import { getFirestore } from "firebase-admin/firestore";
 import { encryptFile } from "../utils/encryptFile";
-import { SERVER_ERROR, allowedExtensions } from "./../utils/constants";
+import {
+  SERVER_ERROR,
+  allowedExtensions,
+  MAX_FILE_SIZE,
+} from "./../utils/constants";
 import { UploadedFileProps } from "../utils/util.types";
 
 const corsHandler = cors({ origin: true });
@@ -37,6 +41,20 @@ export const uploadUserFiles = functions.https.onRequest(
             success: false,
             message:
               "Invalid file type. Allowed types are .doc, .docx, .pdf, .txt, .odt, .pages",
+          });
+          return;
+        }
+
+        const totalSize = files.reduce(
+          (acc: number, file: UploadedFileProps) =>
+            acc + Buffer.from(file.data).length,
+          0
+        );
+
+        if (totalSize > MAX_FILE_SIZE) {
+          response.status(400).send({
+            success: false,
+            message: "Total file size exceeds the maximum limit of 5MB.",
           });
           return;
         }
