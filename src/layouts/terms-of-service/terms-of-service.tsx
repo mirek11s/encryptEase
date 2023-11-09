@@ -42,6 +42,10 @@ const TermsOfService = () => {
           <strong>8. {t("tos-rule-8-subheader")}: </strong>
           {t("tos-rule-8-text")}
         </p>
+        <p className="mb-2 tos-paragraph">
+          <strong>9. {t("tos-rule-9-subheader")}: </strong>
+          {t("tos-rule-9-text")}
+        </p>
       </div>
     </div>
   );
