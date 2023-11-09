@@ -5,8 +5,14 @@ export const encryptFile = (
   encryptionKey: string,
   algorithm: string
 ) => {
-  const iv = randomBytes(16);
-  const cipher = createCipheriv(algorithm, encryptionKey, iv);
+  const keyBuffer = Buffer.from(encryptionKey, "hex");
+  if (keyBuffer.length !== 32) {
+    throw new Error("Key must be 32 bytes in length.");
+  }
+
+  const iv = randomBytes(16); // Initialization vector
+  const cipher = createCipheriv(algorithm, keyBuffer, iv);
   const encrypted = Buffer.concat([cipher.update(fileBuffer), cipher.final()]);
+
   return { encrypted, iv };
 };

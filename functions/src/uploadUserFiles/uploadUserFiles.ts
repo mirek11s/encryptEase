@@ -26,15 +26,6 @@ export const uploadUserFiles = functions.https.onRequest(
         const { files, encryptionKey, algorithm, userId } =
           request.body.data || {};
 
-        // 32 bytes = 256 bits
-        if (encryptionKey.length !== 32) {
-          response.status(400).send({
-            success: false,
-            message: "Invalid encryption key length",
-          });
-          return;
-        }
-
         // Check if files have allowed extensions
         const hasInvalidFiles = files.some((file: UploadedFileProps) => {
           const fileExtension = file.name.split(".").pop();
