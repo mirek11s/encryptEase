@@ -16,6 +16,7 @@ import { useAuth } from "utils/use-auth";
 import { useIsMobile } from "utils/use-is-mobile";
 
 import { algorithmOptions } from "layouts/layoutConstants";
+import "./dashboard.css";
 
 const Dashboard: React.FC = () => {
   const { t } = useTranslation();
@@ -82,7 +83,9 @@ const Dashboard: React.FC = () => {
               offLabel={t("download-decrypt")}
             />
           </div>
-          <small>{t("note-msg-dashboard")}</small>
+          <small className="dashboard-note-message">
+            {t("note-msg-dashboard")}
+          </small>
         </div>
 
         {isUploadOn ? (

@@ -1,0 +1,8 @@
+@media (max-width: 768px) {
+  .dashboard-note-message {
+    font-size: 0.8em;
+    word-wrap: break-word;
+    overflow: auto;
+    padding: 0 0.625rem;
+  }
+}
