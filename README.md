@@ -31,5 +31,3 @@ To embark on your EncryptEase journey:
 2. Obtain the `.env` file for necessary environment configurations.
 3. Execute `npm install` to install dependencies.
 4. Launch the application with `npm run dev`.
-
-EncryptEase merges modern web technologies with stringent encryption standards, providing a powerful tool for safeguarding sensitive documents. It's an ideal platform for individuals and businesses alike, looking to secure various document formats with ease and reliability.
