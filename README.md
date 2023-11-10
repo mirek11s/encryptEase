@@ -1,27 +1,35 @@
-# React + TypeScript + Vite
+# 🔐 EncryptEase: Advanced File Encryption & Management
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Welcome to EncryptEase, a cutting-edge web application tailored for secure file encryption and management. Developed using React, TypeScript, and Vite, this application is integrated with Firebase Cloud Functions, Authentication, Cloud Database, and Storage to ensure a high-security user experience.
 
-Currently, two official plugins are available:
+## Core Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Secure User Authentication:** Register and log in with confidence to access your dedicated encryption dashboard.
+- **Selective File Encryption:** Upload files and choose from three sophisticated encryption algorithms - AES, Camellia, or the unique EncryptEase Special (a custom algorithm).
+- **High-Level Security:** Employ 256-Bit encryption, necessitating a private key provided by you for the encryption process.
+- **Supported File Formats:** Strictly accepts .txt, .pdf, .doc, .docx, .odt, and .pages file formats to maintain consistency and security.
+- **File Management and Visibility:** Effortlessly view and handle your encrypted files within a user-friendly interface.
+- **Decryption and Secure Download:** Decrypt and download your files securely to your device by inputting your private encryption key.
 
-## Expanding the ESLint configuration
+## Client-Side Application
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+Located in the `src` folder, the client-side code is the heart of the application. Start the app using `npm run dev`. Please note, a `.env` file, crucial for configuration, is not included in the repository. Contact the repository maintainer to acquire this file.
 
-- Configure the top-level `parserOptions` property like this:
+## Backend Functionalities
 
-```js
-   parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-   },
-```
+The backend logic, encompassing cloud functions for file encryption and user authentication, resides in the `functions` folder.
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+## Enhanced ESLint Configuration
+
+The ESLint setup is extendable for a production environment to include type-aware lint rules. This enhancement ensures adherence to TypeScript best practices and maintains high code quality.
+
+## Quick Start Guide
+
+To embark on your EncryptEase journey:
+
+1. Clone the repository.
+2. Obtain the `.env` file for necessary environment configurations.
+3. Execute `npm install` to install dependencies.
+4. Launch the application with `npm run dev`.
+
+EncryptEase merges modern web technologies with stringent encryption standards, providing a powerful tool for safeguarding sensitive documents. It's an ideal platform for individuals and businesses alike, looking to secure various document formats with ease and reliability.
